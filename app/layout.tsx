@@ -58,7 +58,7 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
-}
+};
 
 export default function RootLayout({
   children,
@@ -68,14 +68,18 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={cn(inter.className, "min-h-screen bg-background font-sans antialiased")}>
+        <body
+          className={cn(
+            inter.className,
+            "min-h-screen bg-background font-sans antialiased"
+          )}
+        >
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
-          // disableTransitionOnChange
+            // disableTransitionOnChange
           >
-
             <main>{children}</main>
             <Toaster />
           </ThemeProvider>

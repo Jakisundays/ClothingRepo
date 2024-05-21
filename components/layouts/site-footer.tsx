@@ -1,12 +1,12 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { JoinNewsletterForm } from "@/components/forms/join-newsletter-form"
-import { Icons } from "@/components/icons"
-import { ModeToggle } from "@/components/layouts/mode-toggle"
-import { Shell } from "@/components/shells/shell"
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { JoinNewsletterForm } from "@/components/forms/join-newsletter-form";
+import { Icons } from "@/components/icons";
+import { ModeToggle } from "@/components/layouts/mode-toggle";
+import { Shell } from "@/components/shells/shell";
 
 export function SiteFooter() {
   return (
@@ -82,7 +82,7 @@ export function SiteFooter() {
             </Link>
             .
           </div>
-          <section
+          {/* <section
             id="footer-branding"
             aria-labelledby="footer-branding-heading"
           >
@@ -91,7 +91,7 @@ export function SiteFooter() {
               <span className="font-bold">{siteConfig.name}</span>
               <span className="sr-only">Home</span>
             </Link>
-          </section>
+          </section> */}
           <div className="flex items-center space-x-1">
             <Link
               href={siteConfig.links.instagram}
@@ -112,5 +112,5 @@ export function SiteFooter() {
         </section>
       </Shell>
     </footer>
-  )
+  );
 }

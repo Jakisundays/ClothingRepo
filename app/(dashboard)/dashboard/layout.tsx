@@ -1,19 +1,18 @@
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 
-import { dashboardConfig } from "@/config/dashboard"
-import { getCacheduser } from "@/lib/fetchers/auth"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { SidebarNav } from "@/components/layouts/sidebar-nav"
-import { SiteFooter } from "@/components/layouts/site-footer"
-import { SiteHeader } from "@/components/layouts/site-header"
+import { dashboardConfig } from "@/config/dashboard";
+import { getCacheduser } from "@/lib/fetchers/auth";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { SidebarNav } from "@/components/layouts/sidebar-nav";
+import { SiteHeader } from "@/components/layouts/site-header";
 
 export default async function DashboardLayout({
   children,
 }: React.PropsWithChildren) {
-  const user = await getCacheduser()
+  const user = await getCacheduser();
 
   if (!user) {
-    redirect("/signin")
+    redirect("/signin");
   }
 
   return (
@@ -27,7 +26,7 @@ export default async function DashboardLayout({
         </aside>
         <main className="flex w-full flex-col overflow-hidden">{children}</main>
       </div>
-      <SiteFooter />
+      {/* <SiteFooter /> */}
     </div>
-  )
+  );
 }
