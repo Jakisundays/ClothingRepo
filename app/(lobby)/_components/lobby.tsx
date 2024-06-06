@@ -30,11 +30,10 @@ export default async function Lobby({ productsPromise }: LobbyProps) {
   return (
     <>
       <CarouselIntro />
-      <div className="flex flex-wrap">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {products.map((product) => (
+          <ProductCard {...product} key={product.id} />
+        ))}
       </div>
     </>
     // <Shell className="w-full">

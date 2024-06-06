@@ -14,23 +14,24 @@ import {
   boolean,
 } from "drizzle-orm/pg-core";
 
-export const categoryEnum = pgEnum("category", [
-  "new",
-  "clothing",
-  "shoes",
-  "accessories",
-]);
+// export const categoryEnum = pgEnum("category", [
+//   "new",
+//   "clothing",
+//   "shoes",
+//   "accessories",
+// ]);
+
 
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 191 }).notNull(),
   description: text("description"),
   images: json("images").$type<StoredFile[] | null>().default(null),
-  category: categoryEnum("new").notNull(),
-  subcategory: varchar("subcategory", { length: 191 }),
+  // category: categoryEnum("new").notNull(),
+  // subcategory: varchar("subcategory", { length: 191 }),
   price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
   inventory: integer("inventory").notNull().default(0),
-  tags: json("tags").$type<string[] | null>().default(null),
+  // tags: json("tags").$type<string[] | null>().default(null),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -57,7 +58,7 @@ export const emailPreferences = pgTable("email_preferences", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id", { length: 191 }),
   email: varchar("email", { length: 191 }).notNull(),
-  token: varchar("token", { length: 191 }).notNull(),
+  // token: varchar("token", { length: 191 }).notNull(),
   newsletter: boolean("newsletter").notNull().default(false),
   marketing: boolean("marketing").notNull().default(false),
   transactional: boolean("transactional").notNull().default(false),
@@ -70,7 +71,7 @@ export type NewEmailPreference = typeof emailPreferences.$inferInsert;
 
 export const carts = pgTable("carts", {
   id: serial("id").primaryKey(),
-  clientSecret: varchar("client_secret", { length: 191 }),
+  // clientSecret: varchar("client_secret", { length: 191 }),
   items: json("items").$type<CartItem[] | null>().default(null),
   closed: boolean("closed").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),

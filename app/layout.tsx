@@ -7,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import { absoluteUrl, cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers";
+import { SiteHeader } from "@/components/layouts/site-header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -80,7 +81,13 @@ export default function RootLayout({
             enableSystem
             // disableTransitionOnChange
           >
-            <main>{children}</main>
+            <div className="relative flex min-h-screen flex-col">
+              <main className="flex-1">
+                <SiteHeader user={null} />
+
+                {children}
+              </main>
+            </div>
             <Toaster />
           </ThemeProvider>
         </body>

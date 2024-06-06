@@ -1,18 +1,20 @@
-"use client"
+"use client";
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { MinusIcon, PlusIcon } from "@radix-ui/react-icons"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import type { z } from "zod"
-
-import { addToCart } from "@/lib/actions/cart"
+import { addToCart } from "@/lib/actions/cart";
 // import { showErrorToast } from "@/lib/handle-error"
-import { cn } from "@/lib/utils"
-import { updateCartItemSchema } from "@/lib/validations/cart"
-import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+import { cn } from "@/lib/utils";
+import { updateCartItemSchema } from "@/lib/validations/cart";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -20,48 +22,69 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Icons } from "@/components/icons";
+import { Product } from "@/db/schema";
 
 interface AddToCartFormProps {
-  productId: string
-  showBuyNow?: boolean
+  product: Product;
+  showBuyNow?: boolean;
 }
 
-type Inputs = z.infer<typeof updateCartItemSchema>
+type Inputs = z.infer<typeof updateCartItemSchema>;
 
-export function AddToCartForm({ productId, showBuyNow }: AddToCartFormProps) {
-  const id = React.useId()
-  const router = useRouter()
-  const [isAddingToCart, setIsAddingToCart] = React.useState(false)
-  const [isBuyingNow, setIsBuyingNow] = React.useState(false)
+export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
+  const id = React.useId();
+  const router = useRouter();
+  const [isAddingToCart, setIsAddingToCart] = React.useState(false);
+  const [isBuyingNow, setIsBuyingNow] = React.useState(false);
 
   // react-hook-form
   const form = useForm<Inputs>({
     resolver: zodResolver(updateCartItemSchema),
     defaultValues: {
       quantity: 1,
+      size: "Talle 1",
     },
-  })
+  });
 
-  async function onSubmit(data: Inputs) {
-    setIsAddingToCart(true)
-    // const { error } = 
-    await addToCart({
-      productId: Number(productId),
-      quantity: data.quantity,
-    })
+  const addToLocalStorageCart = ({ quantity, size }: Inputs) => {
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // if (error) {
-    //   showErrorToast(error)
-    //   return
-    // }
+    // Find if the product already exists in the cart
+    const existingProductIndex = cart.findIndex(
+      (item: any) => item.id === product.id && item.size === size
+    );
 
-    toast.success("Product added to cart")
+    if (existingProductIndex !== -1) {
+      // If product already exists, update the quantity
+      cart[existingProductIndex].quantity += quantity;
+    } else {
+      // If product does not exist, add it to the cart
+      cart.push({ ...product, quantity, size });
+    }
 
-    setIsAddingToCart(false)
+    // Save the updated cart back to local storage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  async function onSubmit({ quantity, size }: Inputs) {
+    setIsAddingToCart(true);
+    addToLocalStorageCart({ quantity, size });
+    toast.success("Product added to cart");
+
+    setIsAddingToCart(false);
   }
+
+  const buyNow = ({ quantity, size }: Inputs) => {
+    setIsBuyingNow(true);
+    addToLocalStorageCart({ quantity, size });
+
+    setIsBuyingNow(false);
+    window.location.href = "/cart";
+  };
 
   return (
     <Form {...form}>
@@ -104,10 +127,10 @@ export function AddToCartForm({ productId, showBuyNow }: AddToCartFormProps) {
                     className="h-8 w-16 rounded-none border-x-0"
                     {...field}
                     onChange={(e) => {
-                      const value = e.target.value
-                      const parsedValue = parseInt(value, 10)
-                      if (isNaN(parsedValue)) return
-                      field.onChange(parsedValue)
+                      const value = e.target.value;
+                      const parsedValue = parseInt(value, 10);
+                      if (isNaN(parsedValue)) return;
+                      field.onChange(parsedValue);
                     }}
                   />
                 </FormControl>
@@ -130,6 +153,36 @@ export function AddToCartForm({ productId, showBuyNow }: AddToCartFormProps) {
             <span className="sr-only">Add one item</span>
           </Button>
         </div>
+        <FormField
+          control={form.control}
+          name="size"
+          render={({ field }) => (
+            <FormItem className="space-x-3">
+              {/* <FormLabel>Talle</FormLabel> */}
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex space-x-6 my-4"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="Talle 1" />
+                    </FormControl>
+                    <FormLabel className="font-normal">Talle 1</FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="Talle 2" />
+                    </FormControl>
+                    <FormLabel className="font-normal">Talle 2</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="flex items-center space-x-2.5">
           {showBuyNow ? (
             <Button
@@ -137,23 +190,12 @@ export function AddToCartForm({ productId, showBuyNow }: AddToCartFormProps) {
               aria-label="Buy now"
               size="sm"
               className="w-full"
-              onClick={async () => {
-                setIsBuyingNow(true)
-
-                // const { error } = 
-                await addToCart({
-                  productId: Number(productId),
+              onClick={async () =>
+                buyNow({
                   quantity: form.getValues("quantity"),
+                  size: form.getValues("size"),
                 })
-
-                // if (error) {
-                //   showErrorToast(error)
-                //   return
-                // }
-
-                router.push("/cart")
-                setIsBuyingNow(false)
-              }}
+              }
               disabled={isBuyingNow}
             >
               {isBuyingNow && (
@@ -184,5 +226,5 @@ export function AddToCartForm({ productId, showBuyNow }: AddToCartFormProps) {
         </div>
       </form>
     </Form>
-  )
+  );
 }

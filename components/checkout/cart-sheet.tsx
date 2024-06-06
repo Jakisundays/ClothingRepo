@@ -1,10 +1,11 @@
-import Link from "next/link"
+"use client";
+import Link from "next/link";
 
-import { getCart } from "@/lib/fetchers/cart"
-import { cn, formatPrice } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { getCart } from "@/lib/fetchers/cart";
+import { cn, formatPrice } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -12,22 +13,66 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { CartLineItems } from "@/components/checkout/cart-line-items"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/sheet";
+import { CartLineItems } from "@/components/checkout/cart-line-items";
+import { Icons } from "@/components/icons";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
-export async function CartSheet() {
-  const cartLineItems = await getCart()
+const cartLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 
-  const itemCount = cartLineItems.reduce(
-    (total, item) => total + Number(item.quantity),
+export function CartSheet() {
+  const pathname = usePathname();
+  // console.log({ pathname });
+  // const cartLineItems = await getCart()
+  const [cart, setCart] = useState(cartLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const storedCart = localStorage.getItem("cart");
+      if (storedCart) {
+        setCart(JSON.parse(storedCart));
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   const storedCart = localStorage.getItem("cart");
+  //   if (storedCart) {
+  //     setCart(JSON.parse(storedCart));
+  //   }
+  // }, []);
+
+  // console.log({ cart });
+
+  // const removeFromCart = (productId) => {
+  //   setCart((prevCart) => {
+  //     const updatedCart = { ...prevCart };
+  //     // delete updatedCart[productId];
+  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
+  //     return updatedCart;
+  //   });
+  // };
+
+  const itemCount = cart.reduce(
+    (total: any, item: any) => total + Number(item.quantity),
     0
-  )
+  );
 
-  const cartTotal = cartLineItems.reduce(
-    (total, item) => total + item.quantity * Number(item.price),
+  const cartTotal = cart.reduce(
+    (total: any, item: any) => total + item.quantity * Number(item.price),
     0
-  )
+  );
 
   return (
     <Sheet>
@@ -36,7 +81,7 @@ export async function CartSheet() {
           aria-label="Open cart"
           variant="outline"
           size="icon"
-          className="relative"
+          className={cn("relative", pathname === '/cart' && 'hidden')}
         >
           {itemCount > 0 && (
             <Badge
@@ -56,7 +101,7 @@ export async function CartSheet() {
         </SheetHeader>
         {itemCount > 0 ? (
           <>
-            <CartLineItems items={cartLineItems} className="flex-1" />
+            <CartLineItems items={cart} className="flex-1" />
             <div className="space-y-4 pr-6">
               <Separator />
               <div className="space-y-1.5 text-sm">
@@ -75,16 +120,23 @@ export async function CartSheet() {
               </div>
               <SheetFooter>
                 <SheetTrigger asChild>
-                  <Link
+                  <Button
+                    size="sm"
+                    className="w-full"
+                    onClick={() => (window.location.href = "/cart")}
+                  >
+                    Continue to checkout
+                  </Button>
+                  {/* <Link
                     aria-label="View your cart"
                     href="/cart"
                     className={buttonVariants({
                       size: "sm",
                       className: "w-full",
                     })}
-                  >
+                  > window.location.href = "/cart";
                     Continue to checkout
-                  </Link>
+                  </Link> */}
                 </SheetTrigger>
               </SheetFooter>
             </div>
@@ -101,7 +153,7 @@ export async function CartSheet() {
             <SheetTrigger asChild>
               <Link
                 aria-label="Add items to your cart to checkout"
-                href="/products"
+                href="/"
                 className={cn(
                   buttonVariants({
                     variant: "link",
@@ -117,5 +169,5 @@ export async function CartSheet() {
         )}
       </SheetContent>
     </Sheet>
-  )
+  );
 }

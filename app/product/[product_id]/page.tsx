@@ -18,70 +18,60 @@ import { ProductImageCarousel } from "@/components/product-image-carousel";
 import { AddToCartForm } from "./_components/add-to-cart-form";
 // import { UpdateProductRatingButton } from "./_components/update-product-rating-button"
 import { Shell } from "@/components/shells/shell";
+import db from "@/db";
+import { Product, products } from "@/db/schema";
 
 interface ProductPageProps {
   params: {
-    productId: string;
+    product_id: string;
   };
 }
 
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
-  //   const productId = decodeURIComponent(params.productId)
+  const product = await db.query.products.findFirst({
+    columns: {
+      name: true,
+      description: true,
+    },
+    where: eq(products.id, Number(params.product_id)),
+  });
 
-  //   const product = await db.query.products.findFirst({
-  //     columns: {
-  //       name: true,
-  //       description: true,
-  //     },
-  //     where: eq(products.id, productId),
-  //   })
-
-  //   if (!product) {
-  //     return {}
-  //   }
+  if (!product) {
+    return {};
+  }
 
   return {
-    // metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-    // title: toTitleCase(product.name),
-    // description: product.description,
+    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+    title: toTitleCase(product.name),
+    description: product.description,
   };
 }
 
 export default async function ProductPage({
-  params: { productId },
+  params: { product_id },
 }: ProductPageProps) {
   //   const productId = decodeURIComponent(params.productId)
 
-  //   const product = await db.query.products.findFirst({
-  //     columns: {
-  // id: true,
-  // name: true,
-  // description: true,
-  // price: true,
-  // images: true,
-  // inventory: true,
-  //       rating: true,
-  //       storeId: true,
-  //     },
-  //     with: {
-  //       category: true,
-  //     },
-  //     where: eq(products.id, productId),
-  //   })
+  const product = await db.query.products.findFirst({
+    columns: {
+      id: true,
+      name: true,
+      description: true,
+      price: true,
+      images: true,
+      inventory: true,
+      // rating: true,
+      // storeId: true,
+    },
+    where: eq(products.id, Number(product_id)),
+  });
 
-  //   if (!product) {
-  //     notFound()
-  //   }
+  if (!product) {
+    notFound();
+  }
 
-  //   const store = await db.query.stores.findFirst({
-  //     columns: {
-  //       id: true,
-  //       name: true,
-  //     },
-  //     where: eq(stores.id, product.storeId),
-  //   })
 
   //   const otherProducts = store
   //     ? await db
@@ -106,26 +96,26 @@ export default async function ProductPage({
   //         .orderBy(desc(products.inventory))
   //     : []
 
-  const product = {
-    id: "STREET2024",
-    name: "Unisex Streetwear Bomber Jacket",
-    description:
-      "Elevate your street style with this unisex bomber jacket. Featuring a sleek design, durable zippers, ribbed cuffs, and a bold graphic print on the back.",
-    price: 149.99,
-    images: [
-      {
-        id: "1",
-        name: "Jacket",
-        url: "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg",
-      },
-      {
-        id: "2",
-        name: "Jacket",
-        url: "https://i.pinimg.com/564x/fe/d0/e3/fed0e38c6a887f56cdf7f0f2ef182927.jpg",
-      },
-    ],
-    inventory: 100,
-  };
+  // const product = {
+  //   id: "STREET2024",
+  //   name: "Unisex Streetwear Bomber Jacket",
+  //   description:
+  //     "Elevate your street style with this unisex bomber jacket. Featuring a sleek design, durable zippers, ribbed cuffs, and a bold graphic print on the back.",
+  //   price: 149.99,
+  //   images: [
+  //     {
+  //       id: "1",
+  //       name: "Jacket",
+  //       url: "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg",
+  //     },
+  //     {
+  //       id: "2",
+  //       name: "Jacket",
+  //       url: "https://i.pinimg.com/564x/fe/d0/e3/fed0e38c6a887f56cdf7f0f2ef182927.jpg",
+  //     },
+  //   ],
+  //   inventory: 100,
+  // };
 
   return (
     <Shell className="pb-12 md:pb-14">
@@ -144,28 +134,12 @@ export default async function ProductPage({
             <p className="text-base text-muted-foreground">
               {formatPrice(product.price)}
             </p>
-            {/* {store ? (
-              <Link
-                href={`/products?store_ids=${store.id}`}
-                className="line-clamp-1 inline-block text-base text-muted-foreground hover:underline"
-              >
-                {store.name}
-              </Link>
-            ) : null} */}
           </div>
           <Separator className="my-1.5" />
           <p className="text-base text-muted-foreground">
-            {/* {product.inventory} */}
-            99 in stock
+            {product.inventory} in stock
           </p>
-          {/* <div className="flex items-center justify-between">
-            <Rating rating={Math.round(product.rating / 5)} />
-            <UpdateProductRatingButton
-              productId={product.id}
-              rating={product.rating}
-            />
-          </div> */}
-          <AddToCartForm productId={productId} showBuyNow={true} />
+          <AddToCartForm product={product as Product} showBuyNow={true} />
           <Separator className="mt-5" />
           <Accordion
             type="single"

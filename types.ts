@@ -40,7 +40,6 @@ export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
 
-
 export interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
@@ -71,22 +70,25 @@ export interface DataTableFilterableColumn<TData>
   options: Option[];
 }
 
-export interface Category {
-  title: Product["category"];
-  image: string;
-  icon: React.ComponentType<{ className?: string }>;
-  subcategories: Subcategory[];
-}
+// export interface Category {
+//   title: Product["category"];
+//   image: string;
+//   icon: React.ComponentType<{ className?: string }>;
+//   subcategories: Subcategory[];
+// }
 
-export interface Subcategory {
-  title: string;
-  description?: string;
-  image?: string;
-  slug: string;
-}
+// export interface Subcategory {
+//   title: string;
+//   description?: string;
+//   image?: string;
+//   slug: string;
+// }
 
 export type CartItem = z.infer<typeof cartItemSchema>;
 
 export type CheckoutItem = z.infer<typeof checkoutItemSchema>;
 
 export type CartLineItem = z.infer<typeof cartLineItemSchema>;
+export interface CartLineItemWithSize extends CartLineItem {
+  size: string;
+}

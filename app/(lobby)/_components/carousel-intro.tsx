@@ -2,7 +2,6 @@
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import Image from "next/image";
 
 export default function CarouselIntro() {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
@@ -11,7 +10,7 @@ export default function CarouselIntro() {
 
   return (
     <div
-      className="bg-red-800 h-[calc(100vh-65px)] overflow-hidden"
+      className="bg-red-800 h-44 md:h-[calc(100vh-65px)] overflow-hidden"
       ref={emblaRef}
     >
       <div className="flex h-full">

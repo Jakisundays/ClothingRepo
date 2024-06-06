@@ -1,28 +1,38 @@
 "use client";
 
+import { Product } from "@/db/schema";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const ProductCard = () => {
+const ProductCard = ({ id, name, images }: Product) => {
   const [currentImage, setCurrentImage] = useState(
-    "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg"
+    images
+      ? images[0].url
+      : "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg"
   );
 
   const handleMouseEnter = () => {
     setCurrentImage(
-      "https://i.pinimg.com/564x/fe/d0/e3/fed0e38c6a887f56cdf7f0f2ef182927.jpg"
+      images
+        ? images[1].url
+        : "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg"
     );
   };
 
   const handleMouseLeave = () => {
     setCurrentImage(
-      "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg"
+      images
+        ? images[0].url
+        : "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg"
     );
   };
 
   return (
-    <Link href={'/product/1'} className="flex flex-col justify-center items-center gap-3 p-8 cursor-pointer">
+    <Link
+      href={`/product/${id}`}
+      className="flex flex-col justify-center items-center gap-3 p-8 cursor-pointer"
+    >
       <Image
         src={currentImage}
         onMouseEnter={handleMouseEnter}
@@ -31,7 +41,7 @@ const ProductCard = () => {
         height={350}
         alt="product"
       />
-      <label className="text-lg font-semibold tracking-normal">Name</label>
+      <label className="text-lg font-semibold tracking-normal">{name}</label>
     </Link>
   );
 };

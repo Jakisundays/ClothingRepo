@@ -13,89 +13,93 @@ import {
   deleteCartItemsSchema,
 } from "@/lib/validations/cart"
 
-export async function addToCart(rawInput: z.infer<typeof cartItemSchema>) {
-  const input = cartItemSchema.parse(rawInput)
+// export async function addToCart(rawInput: z.infer<typeof cartItemSchema>) {
+//   const input = cartItemSchema.parse(rawInput)
 
-  // Checking if product is in stock
-  const product = await db.query.products.findFirst({
-    columns: {
-      inventory: true,
-    },
-    where: eq(products.id, input.productId),
-  })
+//   // Checking if product is in stock
+//   const product = await db.query.products.findFirst({
+//     columns: {
+//       inventory: true,
+//     },
+//     where: eq(products.id, input.productId),
+//   })
 
-  if (!product) {
-    throw new Error("Product not found, please try again.")
-  }
+//   if (!product) {
+//     throw new Error("Product not found, please try again.")
+//   }
 
-  if (product.inventory < input.quantity) {
-    throw new Error("Product is out of stock, please try again later.")
-  }
+//   if (product.inventory < input.quantity) {
+//     throw new Error("Product is out of stock, please try again later.")
+//   }
 
-  const cookieStore = cookies()
-  const cartId = cookieStore.get("cartId")?.value
+//   const cookieStore = cookies()
+//   const cartId = cookieStore.get("cartId")?.value
 
-  if (!cartId) {
-    const cart = await db.insert(carts).values({
-      items: [input],
-    })
+//   if (!cartId) {
+//     const cart = await db.insert(carts).values({
+//       items: [input],
+//     })
 
-    // Note: .set() is only available in a Server Action or Route Handler
-    cookieStore.set("cartId", String(cart.oid))
+//     // Note: .set() is only available in a Server Action or Route Handler
+//     cookieStore.set("cartId", String(cart.oid))
 
-    revalidatePath("/")
-    return
-  }
+//     revalidatePath("/")
+//     return
+//   }
 
-  const cart = await db.query.carts.findFirst({
-    where: eq(carts.id, Number(cartId)),
-  })
+//   const cart = await db.query.carts.findFirst({
+//     where: eq(carts.id, Number(cartId)),
+//   })
 
-  // TODO: Find a better way to deal with expired carts
-  if (!cart) {
-    cookieStore.set({
-      name: "cartId",
-      value: "",
-      expires: new Date(0),
-    })
+//   // TODO: Find a better way to deal with expired carts
+//   if (!cart) {
+//     cookieStore.set({
+//       name: "cartId",
+//       value: "",
+//       expires: new Date(0),
+//     })
 
-    await db.delete(carts).where(eq(carts.id, Number(cartId)))
+//     await db.delete(carts).where(eq(carts.id, Number(cartId)))
 
-    throw new Error("Cart not found, please try again.")
-  }
+//     throw new Error("Cart not found, please try again.")
+//   }
 
-  // If cart is closed, delete it and create a new one
-  if (cart.closed) {
-    await db.delete(carts).where(eq(carts.id, Number(cartId)))
+//   // If cart is closed, delete it and create a new one
+//   if (cart.closed) {
+//     await db.delete(carts).where(eq(carts.id, Number(cartId)))
 
-    const newCart = await db.insert(carts).values({
-      items: [input],
-    })
+//     const newCart = await db.insert(carts).values({
+//       items: [input],
+//     })
 
-    cookieStore.set("cartId", String(newCart.oid))
+//     cookieStore.set("cartId", String(newCart.oid))
 
-    revalidatePath("/")
-    return
-  }
+//     revalidatePath("/")
+//     return
+//   }
 
-  const cartItem = cart.items?.find(
-    (item) => item.productId === input.productId
-  )
+//   const cartItem = cart.items?.find(
+//     (item) => item.productId === input.productId
+//   )
 
-  if (cartItem) {
-    cartItem.quantity += input.quantity
-  } else {
-    cart.items?.push(input)
-  }
+//   if (cartItem) {
+//     cartItem.quantity += input.quantity
+//   } else {
+//     cart.items?.push(input)
+//   }
 
-  await db
-    .update(carts)
-    .set({
-      items: cart.items,
-    })
-    .where(eq(carts.id, Number(cartId)))
+//   await db
+//     .update(carts)
+//     .set({
+//       items: cart.items,
+//     })
+//     .where(eq(carts.id, Number(cartId)))
 
-  revalidatePath("/")
+//   revalidatePath("/")
+// }
+
+export async function addToCart(rawInput: z.infer<typeof cartItemSchema>){
+  
 }
 
 export async function updateCartItem(rawInput: z.infer<typeof cartItemSchema>) {

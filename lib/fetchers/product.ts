@@ -6,7 +6,7 @@ import {
 } from "next/cache";
 import db from "@/db";
 import { products, type Product } from "@/db/schema";
-import type { Category } from "@/types";
+// import type { Category } from "@/types";
 import {
   and,
   asc,
@@ -37,22 +37,19 @@ export async function getFeaturedProducts() {
             id: products.id,
             name: products.name,
             images: products.images,
-            category: products.category,
+            description: products.description,
             price: products.price,
             inventory: products.inventory,
+            createdAt: products.createdAt,
+            updatedAt: products.updatedAt,
           })
           .from(products)
           .limit(8)
           .groupBy(products.id)
           .orderBy(
-            desc(sql<number>`count(${products.images})`),
+            // desc(sql<number>`count(${products.images})`),
             desc(products.createdAt)
           );
-      },
-      ["featured-products"],
-      {
-        revalidate: 3600,
-        tags: ["featured-products"],
       }
     )();
   } catch (err) {
@@ -72,9 +69,9 @@ export async function getProducts(input: z.infer<typeof getProductsSchema>) {
       "asc" | "desc" | undefined
     ]) ?? ["createdAt", "desc"];
     const [minPrice, maxPrice] = input.price_range?.split("-") ?? [];
-    const categories =
-      (input.categories?.split(".") as Product["category"][]) ?? [];
-    const subcategories = input.subcategories?.split(".") ?? [];
+    // const categories =
+    //   (input.categories?.split(".") as Product["category"][]) ?? [];
+    // const subcategories = input.subcategories?.split(".") ?? [];
 
     const transaction = await db.transaction(async (tx) => {
       const data = await tx
@@ -83,29 +80,29 @@ export async function getProducts(input: z.infer<typeof getProductsSchema>) {
           name: products.name,
           description: products.description,
           images: products.images,
-          category: products.category,
-          subcategory: products.subcategory,
+          // category: products.category,
+          // subcategory: products.subcategory,
           price: products.price,
           inventory: products.inventory,
-          tags: products.tags,
+          // tags: products.tags,
           createdAt: products.createdAt,
           updatedAt: products.updatedAt,
         })
         .from(products)
         .limit(input.limit)
         .offset(input.offset)
-        .where(
-          and(
-            categories.length
-              ? inArray(products.category, categories)
-              : undefined,
-            subcategories.length
-              ? inArray(products.subcategory, subcategories)
-              : undefined,
-            minPrice ? gte(products.price, minPrice) : undefined,
-            maxPrice ? lte(products.price, maxPrice) : undefined
-          )
-        )
+        // .where(
+        //   and(
+        //     categories.length
+        //       ? inArray(products.category, categories)
+        //       : undefined,
+        //     subcategories.length
+        //       ? inArray(products.subcategory, subcategories)
+        //       : undefined,
+        //     minPrice ? gte(products.price, minPrice) : undefined,
+        //     maxPrice ? lte(products.price, maxPrice) : undefined
+        //   )
+        // )
         .groupBy(products.id)
         .orderBy(
           column && column in products
@@ -120,18 +117,18 @@ export async function getProducts(input: z.infer<typeof getProductsSchema>) {
           count: sql<number>`count(*)`,
         })
         .from(products)
-        .where(
-          and(
-            categories.length
-              ? inArray(products.category, categories)
-              : undefined,
-            subcategories.length
-              ? inArray(products.subcategory, subcategories)
-              : undefined,
-            minPrice ? gte(products.price, minPrice) : undefined,
-            maxPrice ? lte(products.price, maxPrice) : undefined,
-          )
-        )
+        // .where(
+        //   and(
+        //     categories.length
+        //       ? inArray(products.category, categories)
+        //       : undefined,
+        //     subcategories.length
+        //       ? inArray(products.subcategory, subcategories)
+        //       : undefined,
+        //     minPrice ? gte(products.price, minPrice) : undefined,
+        //     maxPrice ? lte(products.price, maxPrice) : undefined,
+        //   )
+        // )
         .execute()
         .then((res) => res[0]?.count ?? 0);
 
@@ -161,7 +158,7 @@ export async function getProductCount({ category }: { category: Category }) {
         count: sql<number>`count(*)`.mapWith(Number),
       })
       .from(products)
-      .where(eq(products.category, category.title))
+      // .where(eq(products.category, category.title))
       .execute()
       .then((res) => res[0]?.count ?? 0);
   } catch (err) {
@@ -183,9 +180,7 @@ export async function getNextProductId(
       columns: {
         id: true,
       },
-      where: and(
-        gt(products.id, input.id)
-      ),
+      where: and(gt(products.id, input.id)),
       orderBy: asc(products.id),
     });
 
@@ -215,9 +210,7 @@ export async function getPreviousProductId(
       columns: {
         id: true,
       },
-      where: and(
-        lt(products.id, input.id)
-      ),
+      where: and(lt(products.id, input.id)),
       orderBy: desc(products.id),
     });
 

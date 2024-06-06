@@ -8,7 +8,7 @@ import { Shell } from "@/components/shells/shell"
 import { ProductCardSkeleton } from "@/components/skeletons/product-card-skeleton"
 
 import { CategoryCard } from "./category-card"
-
+// TODO: Cambiar esto
 export function LobbySkeleton() {
   return (
     <Shell className="max-w-6xl">

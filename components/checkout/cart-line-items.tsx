@@ -1,18 +1,18 @@
-import Image from "next/image"
-import type { CartLineItem } from "@/types"
-import { Slot } from "@radix-ui/react-slot"
+import Image from "next/image";
+import type { CartLineItem, CartLineItemWithSize } from "@/types";
+import { Slot } from "@radix-ui/react-slot";
 
-import { cn, formatPrice } from "@/lib/utils"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import { UpdateCart } from "@/components/checkout/update-cart"
-import { Icons } from "@/components/icons"
+import { cn, formatPrice } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { UpdateCart } from "@/components/checkout/update-cart";
+import { Icons } from "@/components/icons";
 
 interface CartLineItemsProps extends React.HTMLAttributes<HTMLDivElement> {
-  items: CartLineItem[]
-  isScrollable?: boolean
-  isEditable?: boolean
-  variant?: "default" | "minimal"
+  items: CartLineItemWithSize[];
+  isScrollable?: boolean;
+  isEditable?: boolean;
+  variant?: "default" | "minimal";
 }
 
 export function CartLineItems({
@@ -23,7 +23,7 @@ export function CartLineItems({
   className,
   ...props
 }: CartLineItemsProps) {
-  const Comp = isScrollable ? ScrollArea : Slot
+  const Comp = isScrollable ? ScrollArea : Slot;
 
   return (
     <Comp className="h-full">
@@ -35,7 +35,7 @@ export function CartLineItems({
         )}
         {...props}
       >
-        {items.map((item) => (
+        {items.map((item: CartLineItemWithSize) => (
           <div key={item.id} className="space-y-3">
             <div
               className={cn(
@@ -44,7 +44,7 @@ export function CartLineItems({
               )}
             >
               <div className="flex items-center space-x-4">
-                {variant === "default" ? (
+                {/* {variant === "default" ? ( */}
                   <div className="relative aspect-square size-16 min-w-fit overflow-hidden rounded">
                     {item?.images?.length ? (
                       <Image
@@ -67,10 +67,13 @@ export function CartLineItems({
                       </div>
                     )}
                   </div>
-                ) : null}
+                {/* // ) : null} */}
                 <div className="flex flex-col space-y-1 self-start">
                   <span className="line-clamp-1 text-sm font-medium">
                     {item.name}
+                  </span>
+                  <span className="line-clamp-1 text-xs text-muted-foreground font-semibold">
+                    {item.size}
                   </span>
                   {isEditable ? (
                     <span className="line-clamp-1 text-xs text-muted-foreground">
@@ -84,13 +87,6 @@ export function CartLineItems({
                       Qty {item.quantity}
                     </span>
                   )}
-                  {variant === "default" ? (
-                    <span className="line-clamp-1 text-xs capitalize text-muted-foreground">
-                      {`${item.category} ${
-                        item.subcategory ? `/ ${item.subcategory}` : ""
-                      }`}
-                    </span>
-                  ) : null}
                 </div>
               </div>
               {isEditable ? (
@@ -113,5 +109,5 @@ export function CartLineItems({
         ))}
       </div>
     </Comp>
-  )
+  );
 }
