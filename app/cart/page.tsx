@@ -3,9 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { CartLineItemWithSize } from "@/types";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
@@ -31,8 +29,6 @@ import { formatPrice } from "@/lib/utils";
 import {
   FormControl,
   Form,
-  // FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -89,9 +85,9 @@ const formSchema = z.object({
   }),
 });
 
-const cartLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
+// const cartLocalStorage = ;
 const CartPage = () => {
-  const [cart, setCart] = useState<CartLineItemWithSize[]>(cartLocalStorage);
+  const [cart, setCart] = useState<CartLineItemWithSize[]>(JSON.parse(localStorage.getItem("cart") || "[]"));
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
