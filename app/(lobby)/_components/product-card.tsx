@@ -15,7 +15,8 @@ const ProductCard = ({ id, name, images }: Product) => {
   const handleMouseEnter = () => {
     setCurrentImage(
       images
-        ? images[1].url
+        ? images[0].url
+        // ? images[1].url
         : "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg"
     );
   };
