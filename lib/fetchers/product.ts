@@ -45,12 +45,14 @@ export async function getFeaturedProducts() {
           })
           .from(products)
           .limit(8)
-          .groupBy(products.id)
-          .orderBy(
-            // desc(sql<number>`count(${products.images})`),
-            desc(products.createdAt)
-          );
-      }
+          .groupBy(products.id);
+        // .orderBy(
+        //   // desc(sql<number>`count(${products.images})`),
+        //   desc(products.createdAt)
+        // );
+      },
+      [],
+      { revalidate: 10 }
     )();
   } catch (err) {
     console.error(err);

@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 
 import { CartLineItemWithSize } from "@/types";
 import { Input } from "@/components/ui/input";
-
-import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -34,6 +32,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { EmptyCart } from "@/components/empty-cart";
+import { Button } from "@/components/ui/button";
 
 const provinciasDeArgentina = [
   "Buenos Aires",
@@ -87,24 +89,25 @@ const formSchema = z.object({
 
 // const cartLocalStorage = ;
 const CartPage = () => {
-  const [cart, setCart] = useState<CartLineItemWithSize[]>(JSON.parse(localStorage.getItem("cart") || "[]"));
+  initMercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY_MP!, {
+    locale: "es-AR",
+  });
+  const [cart, setCart] = useState<CartLineItemWithSize[]>(
+    JSON.parse(localStorage.getItem("cart") || "[]")
+  );
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      firstName: "",
-      lastName: "",
-      address: "",
-      apartment: "",
-      postalCode: "",
+      email: "jacob@gmail.com",
+      firstName: "Jacob",
+      lastName: "Dom",
+      address: "palermo 1234",
+      apartment: "2w",
+      postalCode: "b7400",
       province: "Buenos Aires",
+      phone: "1234567890",
     },
   });
-
-  // Handle form submission
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data); // You can replace this with your actual submission logic
-  };
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -134,6 +137,28 @@ const CartPage = () => {
     (total: any, item: any) => total + item.quantity * Number(item.price),
     0
   );
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const res = await fetch("/api/payment/mp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data, cart }),
+      });
+      const response = await res.json();
+      console.log({ response });
+      // window.location.href = response.sandbox_init_point;
+    } catch (error) {
+      console.error({ error });
+    }
+  };
+
+  if (cart.length === 0) {
+    return <EmptyCart />;
+  }
+
   return (
     <main className="container mx-auto my-8 grid grid-cols-1 gap-8 md:grid-cols-[2fr_1fr]">
       <div>
@@ -305,8 +330,23 @@ const CartPage = () => {
                   />
                 </div>
               </CardContent>
-              <CardFooter>
-                <Button className="w-full">Place Order</Button>
+              <CardFooter className="flex justify-center items-center">
+                <Button
+                  id="wallet_container"
+                  className="w-full"
+                  // onClick={handleBuy}
+                >
+                  Place Order
+                </Button>
+                {/* <Wallet
+                  initialization={{
+                    preferenceId: "wallet_container",
+                  }}
+                  customization={{
+                    texts: { valueProp: "payment_methods_logos" },
+                  }}
+                  locale="es-AR"
+                /> */}
               </CardFooter>
             </form>
           </Form>

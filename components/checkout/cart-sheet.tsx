@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 
-import { getCart } from "@/lib/fetchers/cart";
 import { cn, formatPrice } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -19,13 +18,11 @@ import { Icons } from "@/components/icons";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const cartLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
-
 export function CartSheet() {
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart") ?? "[]")
+  );
   const pathname = usePathname();
-  // console.log({ pathname });
-  // const cartLineItems = await getCart()
-  const [cart, setCart] = useState(cartLocalStorage);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -46,24 +43,6 @@ export function CartSheet() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const storedCart = localStorage.getItem("cart");
-  //   if (storedCart) {
-  //     setCart(JSON.parse(storedCart));
-  //   }
-  // }, []);
-
-  // console.log({ cart });
-
-  // const removeFromCart = (productId) => {
-  //   setCart((prevCart) => {
-  //     const updatedCart = { ...prevCart };
-  //     // delete updatedCart[productId];
-  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
-  //     return updatedCart;
-  //   });
-  // };
-
   const itemCount = cart.reduce(
     (total: any, item: any) => total + Number(item.quantity),
     0
@@ -81,7 +60,7 @@ export function CartSheet() {
           aria-label="Open cart"
           variant="outline"
           size="icon"
-          className={cn("relative", pathname === '/cart' && 'hidden')}
+          className={cn("relative", pathname === "/cart" && "hidden")}
         >
           {itemCount > 0 && (
             <Badge
@@ -127,16 +106,6 @@ export function CartSheet() {
                   >
                     Continue to checkout
                   </Button>
-                  {/* <Link
-                    aria-label="View your cart"
-                    href="/cart"
-                    className={buttonVariants({
-                      size: "sm",
-                      className: "w-full",
-                    })}
-                  > window.location.href = "/cart";
-                    Continue to checkout
-                  </Link> */}
                 </SheetTrigger>
               </SheetFooter>
             </div>

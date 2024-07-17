@@ -20,6 +20,7 @@ import { AddToCartForm } from "./_components/add-to-cart-form";
 import { Shell } from "@/components/shells/shell";
 import db from "@/db";
 import { Product, products } from "@/db/schema";
+import { ProductInventory } from "@/types";
 
 interface ProductPageProps {
   params: {
@@ -72,7 +73,6 @@ export default async function ProductPage({
     notFound();
   }
 
-
   //   const otherProducts = store
   //     ? await db
   //         .select({
@@ -117,6 +117,17 @@ export default async function ProductPage({
   //   inventory: 100,
   // };
 
+  function getTotalStock(inventory: ProductInventory[] | null): number {
+    if (!inventory) {
+      return 0;
+    }
+    let totalStock = 0;
+    inventory.forEach((item) => {
+      totalStock += item.quantity;
+    });
+    return totalStock;
+  }
+
   return (
     <Shell className="pb-12 md:pb-14">
       <div className="flex flex-col gap-8 md:flex-row md:gap-16">
@@ -137,7 +148,7 @@ export default async function ProductPage({
           </div>
           <Separator className="my-1.5" />
           <p className="text-base text-muted-foreground">
-            {product.inventory} in stock
+            {getTotalStock(product.inventory)} in stock
           </p>
           <AddToCartForm product={product as Product} showBuyNow={true} />
           <Separator className="mt-5" />
@@ -158,24 +169,6 @@ export default async function ProductPage({
           <Separator className="md:hidden" />
         </div>
       </div>
-      {/* {store && otherProducts.length > 0 ? (
-        <div className="space-y-6 overflow-hidden">
-          <h2 className="line-clamp-1 flex-1 text-2xl font-bold">
-            More products from {store.name}
-          </h2>
-          <ScrollArea orientation="horizontal" className="pb-3.5">
-            <div className="flex gap-4">
-              {otherProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  className="min-w-[260px]"
-                />
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
-      ) : null} */}
     </Shell>
   );
 }

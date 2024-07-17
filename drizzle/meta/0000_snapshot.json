@@ -1,10 +1,8 @@
 {
-  "id": "72b42608-2283-4c29-9764-452cb1dfe37a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "carts": {
+    "public.carts": {
       "name": "carts",
       "schema": "",
       "columns": {
@@ -54,7 +52,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "email_preferences": {
+    "public.email_preferences": {
       "name": "email_preferences",
       "schema": "",
       "columns": {
@@ -123,7 +121,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "orders": {
+    "public.orders": {
       "name": "orders",
       "schema": "",
       "columns": {
@@ -191,7 +189,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "payments": {
+    "public.payments": {
       "name": "payments",
       "schema": "",
       "columns": {
@@ -228,7 +226,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "products": {
+    "public.products": {
       "name": "products",
       "schema": "",
       "columns": {
@@ -312,20 +310,23 @@
     }
   },
   "enums": {
-    "category": {
+    "public.category": {
       "name": "category",
-      "values": {
-        "new": "new",
-        "clothing": "clothing",
-        "shoes": "shoes",
-        "accessories": "accessories"
-      }
+      "schema": "public",
+      "values": [
+        "new",
+        "clothing",
+        "shoes",
+        "accessories"
+      ]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "72b42608-2283-4c29-9764-452cb1dfe37a",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }

@@ -111,8 +111,8 @@ export function MobileNav({ mainNavItems, sidebarNavItems }: MobileNavProps) {
     //   </SheetContent>
     // </Sheet>
     <Link href="/" className="items-center space-x-2 flex lg:hidden">
-      <Icons.logo className="size-6" aria-hidden="true" />
-      <span className="font-bold">{siteConfig.name}</span>
+      <Icons.logo className="size-24" aria-hidden="true" />
+      {/* <span className="font-bold">{siteConfig.name}</span> */}
       <span className="sr-only">Home</span>
     </Link>
   );

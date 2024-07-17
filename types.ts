@@ -60,6 +60,11 @@ export interface StoredFile {
   url: string;
 }
 
+export interface ProductInventory {
+  size: string;
+  quantity: number;
+}
+
 export interface DataTableSearchableColumn<TData> {
   id: keyof TData;
   title: string;

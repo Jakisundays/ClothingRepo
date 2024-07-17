@@ -25,10 +25,10 @@ export function MainNav({ items }: MainNavProps) {
   return (
     <div className="hidden gap-6 lg:flex">
       <Link href="/" className="hidden items-center space-x-2 lg:flex">
-        <Icons.logo className="size-6" aria-hidden="true" />
-        <span className="hidden font-bold lg:inline-block">
+        <Icons.logo className="size-24" aria-hidden="true" />
+        {/* <span className="hidden font-bold lg:inline-block">
           {siteConfig.name}
-        </span>
+        </span> */}
         <span className="sr-only">Home</span>
       </Link>
       <NavigationMenu>
@@ -46,10 +46,10 @@ export function MainNav({ items }: MainNavProps) {
                         href="/"
                         className="flex size-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                       >
-                        <Icons.logo className="size-6" aria-hidden="true" />
-                        <div className="mb-2 mt-4 text-lg font-medium">
+                        <Icons.logo className="size-24" aria-hidden="true" />
+                        {/* <div className="mb-2 mt-4 text-lg font-medium">
                           {siteConfig.name}
-                        </div>
+                        </div> */}
                         <p className="text-sm leading-tight text-muted-foreground">
                           {siteConfig.description}
                         </p>

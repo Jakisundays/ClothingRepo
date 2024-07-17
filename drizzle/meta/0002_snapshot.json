@@ -1,4 +1,6 @@
 {
+  "id": "b903175e-192f-4b1e-b6fa-6ea2eae14c6b",
+  "prevId": "40621cd4-8638-4273-b538-bb5c5bdb122e",
   "version": "6",
   "dialect": "postgresql",
   "tables": {
@@ -243,19 +245,19 @@
           "notNull": false,
           "default": "'null'::json"
         },
+        "inventory": {
+          "name": "inventory",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'null'::json"
+        },
         "price": {
           "name": "price",
           "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": true,
           "default": "'0'"
-        },
-        "inventory": {
-          "name": "inventory",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 0
         },
         "created_at": {
           "name": "created_at",
@@ -281,10 +283,8 @@
   "enums": {},
   "schemas": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "id": "40621cd4-8638-4273-b538-bb5c5bdb122e",
-  "prevId": "72b42608-2283-4c29-9764-452cb1dfe37a"
+    "tables": {}
+  }
 }

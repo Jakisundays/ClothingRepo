@@ -1,1 +1,5 @@
--- Hacer que el button de pagar ya este abajo en responsive
+realizar pago
+mandar email
+agregar pedido 
+redirigir de mercado a la orden registrada
+

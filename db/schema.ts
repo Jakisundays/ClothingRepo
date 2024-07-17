@@ -1,4 +1,4 @@
-import type { CartItem } from "@/types";
+import type { CartItem, ProductInventory } from "@/types";
 import type { CheckoutItem, StoredFile } from "@/types";
 
 import {
@@ -14,24 +14,14 @@ import {
   boolean,
 } from "drizzle-orm/pg-core";
 
-// export const categoryEnum = pgEnum("category", [
-//   "new",
-//   "clothing",
-//   "shoes",
-//   "accessories",
-// ]);
-
 
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 191 }).notNull(),
   description: text("description"),
   images: json("images").$type<StoredFile[] | null>().default(null),
-  // category: categoryEnum("new").notNull(),
-  // subcategory: varchar("subcategory", { length: 191 }),
+  inventory: json("inventory").$type<ProductInventory[] | null>().default(null),
   price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
-  inventory: integer("inventory").notNull().default(0),
-  // tags: json("tags").$type<string[] | null>().default(null),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

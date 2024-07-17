@@ -36,7 +36,6 @@ type Inputs = z.infer<typeof updateCartItemSchema>;
 
 export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
   const id = React.useId();
-  const router = useRouter();
   const [isAddingToCart, setIsAddingToCart] = React.useState(false);
   const [isBuyingNow, setIsBuyingNow] = React.useState(false);
 
@@ -45,7 +44,7 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
     resolver: zodResolver(updateCartItemSchema),
     defaultValues: {
       quantity: 1,
-      size: "Talle 1",
+      size: product.inventory ? product.inventory[0].size : "Talle 1",
     },
   });
 
@@ -165,18 +164,20 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
                   defaultValue={field.value}
                   className="flex space-x-6 my-4"
                 >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="Talle 1" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Talle 1</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="Talle 2" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Talle 2</FormLabel>
-                  </FormItem>
+                  {product.inventory?.map((info, i) => (
+                    <FormItem
+                      className="flex items-center space-x-3 space-y-0"
+                      key={i}
+                    >
+                      <FormControl>
+                        <RadioGroupItem
+                          value={info.size}
+                          disabled={info.quantity === 0}
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">{info.size}</FormLabel>
+                    </FormItem>
+                  ))}
                 </RadioGroup>
               </FormControl>
               <FormMessage />
