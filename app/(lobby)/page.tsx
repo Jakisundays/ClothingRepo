@@ -9,9 +9,8 @@ export default function IndexPage() {
   const productsPromise = getFeaturedProducts();
 
   return (
-    // <React.Suspense fallback={<LobbySkeleton />}>
-    // <Lobby {...{ productsPromise }} />
-    // </React.Suspense>
-    <LobbySkeleton />
+    <React.Suspense fallback={<LobbySkeleton />}>
+      <Lobby {...{ productsPromise }} />
+    </React.Suspense>
   );
 }
