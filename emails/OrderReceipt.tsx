@@ -15,14 +15,14 @@ import {
 import * as React from "react";
 
 interface ClientDetails {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
   address: string;
   province: string;
-  phone: string;
-  last_name: string;
   postal_code: string;
-  first_name: string;
   apartment?: string; // Opcional, basado en el ejemplo proporcionado
-  email: string;
 }
 
 interface Product {
@@ -98,7 +98,7 @@ export const OrderReceipt = ({
               <Section>
                 <Row>
                   <Column style={informationTableColumn}>
-                    <Text style={informationTableLabel}>INFO</Text>
+                    <Text style={informationTableLabel}>Email</Text>
                     <Link
                       style={{
                         ...informationTableValue,
@@ -113,7 +113,7 @@ export const OrderReceipt = ({
 
                 <Row>
                   <Column style={informationTableColumn}>
-                    <Text style={informationTableLabel}>INVOICE DATE</Text>
+                    <Text style={informationTableLabel}>FECHA</Text>
                     <Text style={informationTableValue}>
                       {formatDateString(date_approved)}
                     </Text>
@@ -138,16 +138,20 @@ export const OrderReceipt = ({
             </Column>
             <Column style={informationTableColumn} colSpan={2}>
               <Text style={informationTableLabel}>Detalles</Text>
-              <Text style={informationTableValue}>{first_name}</Text>
-              <Text style={informationTableValue}>{last_name}</Text>
-              <Text style={informationTableValue}>{phone}</Text>
+              <Text style={informationTableValue}>Nombre: {first_name}</Text>
+              <Text style={informationTableValue}>Apellido: {last_name}</Text>
+              <Text style={informationTableValue}>Cel: {phone}</Text>
               <Text style={informationTableValue}>
-                {province}, {address}
+                Domicilio: {province}, {address}
               </Text>
-              <Text style={informationTableValue}>{postal_code}</Text>
               {apartment && (
-                <Text style={informationTableValue}>{apartment}</Text>
+                <Text style={informationTableValue}>
+                  Apartamento: {apartment}
+                </Text>
               )}
+              <Text style={informationTableValue}>
+                Codigo postal: {postal_code}
+              </Text>
             </Column>
           </Row>
         </Section>
@@ -177,8 +181,12 @@ export const OrderReceipt = ({
                 </Column>
                 <Column style={{ paddingLeft: "22px" }}>
                   <Text style={productTitle}>{title}</Text>
-                  <Text style={productDescription}>{description}</Text>
-                  <Text style={productDescription}>{size}</Text>
+                  <Text style={productDescription}>
+                    {description.length > 40
+                      ? description.slice(0, 18) + "..."
+                      : description}
+                  </Text>
+                  <Text style={productDescription}>Talle: {size}</Text>
                 </Column>
                 <Column style={productPriceWrapper} align="right">
                   <Text style={productPrice}>
@@ -257,8 +265,7 @@ OrderReceipt.PreviewProps = {
 } as Order;
 
 const main = {
-  fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif"
-  ,
+  fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
   backgroundColor: "#ffffff",
 };
 

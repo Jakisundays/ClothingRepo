@@ -7,10 +7,11 @@ import { LobbySkeleton } from "./_components/lobby-skeleton";
 
 export default function IndexPage() {
   const productsPromise = getFeaturedProducts();
-  
+
   return (
-      <Lobby {...{ productsPromise }} />
     // <React.Suspense fallback={<LobbySkeleton />}>
+    // <Lobby {...{ productsPromise }} />
     // </React.Suspense>
+    <LobbySkeleton />
   );
 }

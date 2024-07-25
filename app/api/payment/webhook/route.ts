@@ -1,9 +1,13 @@
 import { NextRequest } from "next/server";
 import MercadoPagoConfig, { Payment } from "mercadopago";
+import { Resend } from "resend";
+import OrderReceipt from "@/emails/OrderReceipt";
 
 const client = new MercadoPagoConfig({
   accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN_MP!,
 });
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -19,8 +23,8 @@ export async function POST(request: NextRequest) {
   //   user_id: 606875432
   // }
   const payment = new Payment(client);
-  // const paymentInfo = await payment.get({ id: "82696757426" });
-  const paymentInfo = await payment.get({ id: body.data.id });
+  const paymentInfo = await payment.get({ id: "82696757426" });
+  // const paymentInfo = await payment.get({ id: body.data.id });
   console.log({
     item: paymentInfo.additional_info?.items,
     date: paymentInfo.date_approved,
@@ -151,17 +155,47 @@ export async function POST(request: NextRequest) {
   // const paymentInfo = await payment.get({ id: body.data.id });
   if (paymentInfo.status === "approved") {
     console.log({ metadata: paymentInfo.metadata });
-    
+
     // metadata: {
+    //   first_name: 'Jacob',
+    //   last_name: 'Dom',
+    //   email: 'jacob@gmail.com'
+    //   phone: '1234567890',
     //   address: 'palermo 1234',
     //   province: 'Buenos Aires',
-    //   phone: '1234567890',
-    //   last_name: 'Dom',
     //   postal_code: 'b7400',
-    //   first_name: 'Jacob',
     //   apartment: '2w',
-    //   email: 'jacob@gmail.com'
     // }
+
+    // const { data, error } = await resend.emails.send({
+    //   from: "Acme <onboarding@resend.dev>",
+    //   to: ["delivered@resend.dev"],
+    //   subject: "Hello world",
+    //   react: OrderReceipt({
+    //     id: body.data.id,
+    //     clientDetails: {
+    //       first_name: paymentInfo.metadata.first_name,
+    //       last_name: paymentInfo.metadata.last_name,
+    //       email: paymentInfo.metadata.email,
+    //       phone: paymentInfo.metadata.phone,
+    //       address: paymentInfo.metadata.address,
+    //       province: paymentInfo.metadata.province,
+    //       postal_code: paymentInfo.metadata.postal_code,
+    //       apartment: paymentInfo.metadata.apartment,
+    //     },
+    //     products: paymentInfo.additional_info?.items,
+    //     totalAmountPaid: paymentInfo.transaction_details?.total_paid_amount,
+    //     date_approved: paymentInfo.date_approved,
+    //   }),
+    // });
+
+    // if (error) {
+    //   console.error({ error });
+    //   // return res.status(400).json(error);
+    // }
+
+    // console.log({ data });
+    // res.status(200).json(data);
   }
   return new Response("ok", { status: 200 });
 }
