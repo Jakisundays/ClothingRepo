@@ -4,7 +4,7 @@ import { Resend } from "resend";
 import OrderReceipt from "@/emails/OrderReceipt";
 
 const client = new MercadoPagoConfig({
-  accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN_MP!,
+  accessToken: process.env.ACCESS_TOKEN_MP!,
 });
 
 const resend = new Resend(process.env.RESEND_API_KEY);

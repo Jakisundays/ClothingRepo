@@ -13,7 +13,7 @@ type ItemInput = {
 };
 
 const client = new MercadoPagoConfig({
-  accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN_MP!,
+  accessToken: process.env.ACCESS_TOKEN_MP!,
 });
 
 function transformToItems(cart: ItemInput[]) {

@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import MercadoPagoConfig, { Payment } from "mercadopago";
 
 const client = new MercadoPagoConfig({
-  accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN_MP!,
+  accessToken: process.env.ACCESS_TOKEN_MP!,
 });
 
 export async function GET(
