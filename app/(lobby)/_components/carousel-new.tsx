@@ -10,26 +10,15 @@ export default function CarouselNew() {
   ];
   return (
     <ImagesSlider className="h-full min-h-[calc(100vh-60px)]" images={images}>
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: -80,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 0.6,
-        }}
+      <div
         className="z-50 flex flex-col justify-center items-center"
       >
-        <motion.p className="font-bold text-xl md:text-6xl text-center text-white py-4">
+        <p className="font-bold text-xl md:text-6xl text-center text-white py-4">
           Encuentra tu otra mitad
           <br />
           crea tu Alter Ego
-        </motion.p>
-      </motion.div>
+        </p>
+      </div>
     </ImagesSlider>
   );
 }
