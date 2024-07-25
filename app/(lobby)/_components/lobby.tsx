@@ -12,7 +12,7 @@ export default async function Lobby({ productsPromise }: LobbyProps) {
   const products = await productsPromise;
   return (
     <>
-      <CarouselNew />
+      {/* <CarouselNew /> */}
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {products.map((product) => (
