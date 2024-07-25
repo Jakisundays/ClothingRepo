@@ -6,7 +6,6 @@ export function LobbySkeleton() {
   return (
     <div>
       <CarouselIntro />
-
       <ContentSection
         title="Featured products"
         description="Explore products from around the world"

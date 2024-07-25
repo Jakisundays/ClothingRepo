@@ -11,14 +11,13 @@ interface LobbyProps {
 export default async function Lobby({ productsPromise }: LobbyProps) {
   const products = await productsPromise;
   return (
-    <>
-      {/* <CarouselNew /> */}
-
+    <div className="h-full min-h-[calc(100vh-80px)]">
+      <CarouselNew />
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {products.map((product) => (
           <ProductCard {...product} key={product.id} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
