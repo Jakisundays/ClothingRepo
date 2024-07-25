@@ -138,12 +138,22 @@ export const ImagesSlider = ({
           <motion.img
             key={currentIndex}
             src={loadedImages[currentIndex]}
+            srcSet={`${loadedImages[currentIndex]}?w=400 400w,
+             ${loadedImages[currentIndex]}?w=800 800w,
+             ${loadedImages[currentIndex]}?w=1200 1200w,
+             ${loadedImages[currentIndex]}?w=1600 1600w,
+             ${loadedImages[currentIndex]}?w=2000 2000w`}
+            sizes="(max-width: 400px) 400px,
+           (max-width: 800px) 800px,
+           (max-width: 1200px) 1200px,
+           (max-width: 1600px) 1600px,
+           2000px"
             initial="initial"
             animate="visible"
             exit={direction === "up" ? "upExit" : "downExit"}
             variants={slideVariants}
             className="image h-full w-full absolute inset-0 object-cover object-center"
-            alt='Hero-image'
+            alt="Hero-image"
           />
         </AnimatePresence>
       )}
