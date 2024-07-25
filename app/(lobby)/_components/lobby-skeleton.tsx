@@ -1,6 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
 import { ContentSection } from "@/components/shells/content-section";
-import { Shell } from "@/components/shells/shell";
 import { ProductCardSkeleton } from "@/components/skeletons/product-card-skeleton";
 import CarouselIntro from "./carousel-intro";
 
