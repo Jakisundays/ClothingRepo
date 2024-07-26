@@ -22,17 +22,18 @@ function transformToItems(cart: ItemInput[]) {
     title: item.name, // Use name as title
     description: item.description, // Use description as description
     picture_url: item.images.length > 0 ? item.images[0].url : undefined, // Use the first image's URL if available
-    category_id: undefined, // No category_id in the input, so set to undefined
+    category_id: item.size,
     quantity: item.quantity, // Use quantity from cart
     currency_id: "ARS", // Assuming ARS as currency
     unit_price: parseFloat(item.price), // Convert price to number
-    size: item.size,
   }));
 }
 
 export async function POST(request: NextRequest) {
   const { data, cart } = await request.json();
   const transformedItems = transformToItems(cart);
+
+  console.log({ transformedItems });
 
   const preference = new Preference(client);
   const preferenceInfo = await preference.create({

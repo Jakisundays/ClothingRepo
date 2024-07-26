@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { CartLineItemWithSize } from "@/types";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,6 +35,7 @@ import {
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { EmptyCart } from "@/components/empty-cart";
 import { Button } from "@/components/ui/button";
+import { CartLineItem } from "@/types";
 
 const provinciasDeArgentina = [
   "Buenos Aires",
@@ -92,7 +92,7 @@ const CartPage = () => {
   initMercadoPago(process.env.NEXT_PUBLIC_PUBLIC_KEY_MP!, {
     locale: "es-AR",
   });
-  const [cart, setCart] = useState<CartLineItemWithSize[]>(
+  const [cart, setCart] = useState<CartLineItem[]>(
     JSON.parse(localStorage.getItem("cart") || "[]")
   );
   const form = useForm<z.infer<typeof formSchema>>({
@@ -148,7 +148,8 @@ const CartPage = () => {
         body: JSON.stringify({ data, cart }),
       });
       const response = await res.json();
-      console.log({ response });
+      // console.log({ response });
+      window.location.href = response.nit_point;
       // window.location.href = response.sandbox_init_point;
     } catch (error) {
       console.error({ error });

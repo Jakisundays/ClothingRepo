@@ -12,6 +12,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import { Items } from "mercadopago/dist/clients/commonTypes";
 import * as React from "react";
 
 interface ClientDetails {
@@ -26,20 +27,19 @@ interface ClientDetails {
 }
 
 interface Product {
-  category_id: string | null;
+  category_id: string;
   description: string;
   id: string;
   picture_url: string;
   quantity: string;
   title: string;
   unit_price: string;
-  size: string;
 }
 
 interface Order {
   id: string;
   clientDetails: ClientDetails;
-  products: Product[];
+  products: Items[] | [];
   totalAmountPaid: number; // Campo adicional para el monto total pagado
   date_approved: string;
 }
@@ -167,8 +167,8 @@ export const OrderReceipt = ({
               title,
               unit_price,
               description,
-              size,
-            }: Product) => (
+              category_id,
+            }: Items) => (
               <Row key={id}>
                 <Column style={{ width: "64px" }}>
                   <Img
@@ -182,11 +182,11 @@ export const OrderReceipt = ({
                 <Column style={{ paddingLeft: "22px" }}>
                   <Text style={productTitle}>{title}</Text>
                   <Text style={productDescription}>
-                    {description.length > 40
+                    {description && description.length > 40
                       ? description.slice(0, 18) + "..."
                       : description}
                   </Text>
-                  <Text style={productDescription}>Talle: {size}</Text>
+                  <Text style={productDescription}>Talle: {category_id}</Text>
                 </Column>
                 <Column style={productPriceWrapper} align="right">
                   <Text style={productPrice}>
@@ -236,28 +236,26 @@ OrderReceipt.PreviewProps = {
   },
   products: [
     {
-      category_id: "cat123",
+      category_id: "M",
       description:
         "La Varsity Retro te lleva de vuelta al estilo clásico con un giro moderno. Azul brillante y gráficos audaces, unisex y versátil.",
       id: "prod1",
       picture_url:
         "https://i.pinimg.com/564x/3c/0c/bf/3c0cbf27f171f72dd63cda7687ef7169.jpg",
-      quantity: "2",
+      quantity: 2,
       title: "Varsity Retro",
-      unit_price: "50",
-      size: "M",
+      unit_price: 50,
     },
     {
-      category_id: "cat456",
+      category_id: "L",
       description:
         "Camiseta deportiva de alta calidad, perfecta para cualquier actividad física.",
       id: "prod2",
       picture_url:
         "https://i.pinimg.com/564x/bb/86/d4/bb86d4ea2aecbdbffc4962725002529c.jpg",
-      quantity: "1",
+      quantity: 1,
       title: "Camiseta Deportiva",
-      unit_price: "30",
-      size: "L",
+      unit_price: 30,
     },
   ],
   totalAmountPaid: 130, // 2 * 50 + 1 * 30

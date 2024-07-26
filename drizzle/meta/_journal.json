@@ -22,6 +22,27 @@
       "when": 1718733230277,
       "tag": "0002_calm_captain_cross",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1721963148199,
+      "tag": "0003_handy_praxagora",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1721964051885,
+      "tag": "0004_lying_forgotten_one",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1721964153573,
+      "tag": "0005_jazzy_professor_monster",
+      "breakpoints": true
     }
   ]
 }

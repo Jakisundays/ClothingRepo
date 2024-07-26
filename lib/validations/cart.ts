@@ -1,14 +1,14 @@
 import { products } from "@/db/schema";
 import * as z from "zod";
 
-export const cartItemSchema = z.object({
-  productId: z.number(),
+export const checkoutItemSchema = z.object({
+  id: z.number(),
   quantity: z.number().min(0),
-  // subcategory: z.string().optional().nullable(),
-});
-
-export const checkoutItemSchema = cartItemSchema.extend({
-  price: z.number(),
+  name: z.string(),
+  image: z.string(),
+  price: z.string().regex(/^\d+(\.\d{1,2})?$/),
+  inventory: z.number().default(0),
+  size: z.string(),
 });
 
 export const cartLineItemSchema = z.object({
@@ -24,11 +24,10 @@ export const cartLineItemSchema = z.object({
     )
     .optional()
     .nullable(),
-  // category: z.enum(products.category.enumValues),
-  // subcategory: z.string().optional().nullable(),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/),
   inventory: z.number().default(0),
   quantity: z.number(),
+  size: z.string(),
 });
 
 export const deleteCartItemSchema = z.object({
@@ -41,5 +40,5 @@ export const deleteCartItemsSchema = z.object({
 
 export const updateCartItemSchema = z.object({
   quantity: z.number().min(0).default(1),
-  size: z.string()
+  size: z.string(),
 });

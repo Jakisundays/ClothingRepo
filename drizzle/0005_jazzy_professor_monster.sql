@@ -1,0 +1,1 @@
+ALTER TABLE "payments" ALTER COLUMN "payment_info_id" SET DATA TYPE varchar;
