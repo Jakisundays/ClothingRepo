@@ -149,7 +149,7 @@ const CartPage = () => {
       });
       const response = await res.json();
       // console.log({ response });
-      window.location.href = response.nit_point;
+      window.location.href = response.init_point;
       // window.location.href = response.sandbox_init_point;
     } catch (error) {
       console.error({ error });
