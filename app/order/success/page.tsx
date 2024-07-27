@@ -1,13 +1,10 @@
 "use client";
-import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 
 const OrderSuccess = () => {
-  //   const pathname = usePathname();
   const searchParams = useSearchParams();
   const proved = searchParams.get("proved");
   const paymentId = searchParams.get("payment_id");

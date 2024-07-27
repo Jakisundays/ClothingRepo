@@ -1,5 +1,1 @@
-realizar pago
-agregar pedido 
-
-Speed:
-Image Slider
+ssr /order/success/page a la orden a ver q onda

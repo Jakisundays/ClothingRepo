@@ -25,7 +25,7 @@ import { useToast } from "../ui/use-toast";
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Pick<
     Product,
-    "id" | "name" | "price" | "images" | "category" | "inventory"
+    "id" | "name" | "price" | "images" | "inventory" | "description"
   >;
   variant?: "default" | "switchable";
   isAddedToCart?: boolean;
@@ -81,7 +81,7 @@ export function ProductCard({
         {variant === "default" ? (
           <div className="flex w-full items-center space-x-2">
             <Button
-              aria-label="Add to cart"
+              aria-label="Añadir al carrito"
               size="sm"
               className="h-8 w-full rounded-sm"
               onClick={() => {
@@ -105,7 +105,7 @@ export function ProductCard({
                   aria-hidden="true"
                 />
               )}
-              Add to cart
+              Añadir al carrito
             </Button>
             <Link
               href={`/preview/product/${product.id}`}
@@ -124,7 +124,9 @@ export function ProductCard({
           </div>
         ) : (
           <Button
-            aria-label={isAddedToCart ? "Remove from cart" : "Add to cart"}
+            aria-label={
+              isAddedToCart ? "Quitar del carrito" : "Añadir al carrito"
+            }
             size="sm"
             className="h-8 w-full rounded-sm"
             onClick={() => {
@@ -144,7 +146,7 @@ export function ProductCard({
             ) : (
               <PlusIcon className="mr-2 size-4" aria-hidden="true" />
             )}
-            {isAddedToCart ? "Added" : "Add to cart"}
+            {isAddedToCart ? "Added" : "Añadir al carrito"}
           </Button>
         )}
       </CardFooter>

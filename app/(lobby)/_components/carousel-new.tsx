@@ -1,6 +1,5 @@
 "use client";
 import { ImagesSlider } from "@/components/acertenity/images-slider";
-import { motion } from "framer-motion";
 import React from "react";
 
 export default function CarouselNew() {

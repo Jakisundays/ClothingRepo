@@ -85,12 +85,12 @@ export function CartSheet() {
               <Separator />
               <div className="space-y-1.5 text-sm">
                 <div className="flex">
-                  <span className="flex-1">Shipping</span>
-                  <span>Free</span>
+                  <span className="flex-1">Envío</span>
+                  <span>Gratis</span>
                 </div>
                 <div className="flex">
-                  <span className="flex-1">Taxes</span>
-                  <span>Calculated at checkout</span>
+                  <span className="flex-1">Impuestos</span>
+                  <span>Calculado al finalizar la compra</span>
                 </div>
                 <div className="flex">
                   <span className="flex-1">Total</span>
@@ -104,7 +104,7 @@ export function CartSheet() {
                     className="w-full"
                     onClick={() => (window.location.href = "/cart")}
                   >
-                    Continue to checkout
+                    Pasar al checkout
                   </Button>
                 </SheetTrigger>
               </SheetFooter>
@@ -117,11 +117,11 @@ export function CartSheet() {
               aria-hidden="true"
             />
             <div className="text-xl font-medium text-muted-foreground">
-              Your cart is empty
+              Tu carrito está vacío
             </div>
             <SheetTrigger asChild>
               <Link
-                aria-label="Add items to your cart to checkout"
+                aria-label="Añade al carrito y procede al checkout"
                 href="/"
                 className={cn(
                   buttonVariants({
@@ -131,7 +131,7 @@ export function CartSheet() {
                   })
                 )}
               >
-                Add items to your cart to checkout
+                Añade al carrito y procede al checkout
               </Link>
             </SheetTrigger>
           </div>

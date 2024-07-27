@@ -1,18 +1,13 @@
 import { CartLineItems } from "@/components/checkout/cart-line-items";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/utils";
-import { CartLineItemWithSize } from "@/types";
+import { CartLineItem } from "@/types";
 
 interface CheckOutTotalProps {
-  cart: CartLineItemWithSize[] | [];
+  cart: CartLineItem[] | [];
 }
 
 const CheckOutTotal = ({ cart }: CheckOutTotalProps) => {
-  const itemCount = cart.reduce(
-    (total: any, item: any) => total + Number(item.quantity),
-    0
-  );
-
   const cartTotal = cart.reduce(
     (total: any, item: any) => total + item.quantity * Number(item.price),
     0
@@ -24,13 +19,9 @@ const CheckOutTotal = ({ cart }: CheckOutTotalProps) => {
         <Separator />
         <div className="text-md">
           <div className="flex">
-            <span className="flex-1">Shipping</span>
-            <span>Free</span>
+            <span className="flex-1">Envío</span>
+            <span>Gratis</span>
           </div>
-          {/* <div className="flex">
-            <span className="flex-1">Taxes</span>
-            <span>Calculated at checkout</span>
-          </div> */}
           <div className="flex">
             <span className="flex-1">Total</span>
             <span>{formatPrice(cartTotal.toFixed(2))}</span>

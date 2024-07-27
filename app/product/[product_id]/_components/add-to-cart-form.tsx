@@ -1,15 +1,12 @@
 "use client";
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-import { addToCart } from "@/lib/actions/cart";
-// import { showErrorToast } from "@/lib/handle-error"
-import { Label } from "@/components/ui/label";
+
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { cn } from "@/lib/utils";
@@ -110,7 +107,7 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
             disabled={isAddingToCart}
           >
             <MinusIcon className="size-3" aria-hidden="true" />
-            <span className="sr-only">Remove one item</span>
+            <span className="sr-only">Retirar un artículo</span>
           </Button>
           <FormField
             control={form.control}
@@ -188,7 +185,7 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
           {showBuyNow ? (
             <Button
               type="button"
-              aria-label="Buy now"
+              aria-label="Compra ya"
               size="sm"
               className="w-full"
               onClick={async () =>
@@ -205,11 +202,11 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
                   aria-hidden="true"
                 />
               )}
-              Buy now
+              Compra ya
             </Button>
           ) : null}
           <Button
-            aria-label="Add to cart"
+            aria-label="Añadir al carrito"
             type="submit"
             variant={showBuyNow ? "outline" : "default"}
             size="sm"
@@ -222,7 +219,7 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
                 aria-hidden="true"
               />
             )}
-            Add to cart
+            Añadir al carrito
           </Button>
         </div>
       </form>

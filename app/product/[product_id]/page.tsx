@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { and, desc, eq, not } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import { formatPrice, toTitleCase } from "@/lib/utils";
 import {
@@ -10,13 +9,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-// import { ProductCard } from "@/components/product-card"
 import { ProductImageCarousel } from "@/components/product-image-carousel";
-
 import { AddToCartForm } from "./_components/add-to-cart-form";
-// import { UpdateProductRatingButton } from "./_components/update-product-rating-button"
 import { Shell } from "@/components/shells/shell";
 import db from "@/db";
 import { Product, products } from "@/db/schema";
@@ -53,8 +48,6 @@ export async function generateMetadata({
 export default async function ProductPage({
   params: { product_id },
 }: ProductPageProps) {
-  //   const productId = decodeURIComponent(params.productId)
-
   const product = await db.query.products.findFirst({
     columns: {
       id: true,
@@ -63,8 +56,6 @@ export default async function ProductPage({
       price: true,
       images: true,
       inventory: true,
-      // rating: true,
-      // storeId: true,
     },
     where: eq(products.id, Number(product_id)),
   });
@@ -72,50 +63,6 @@ export default async function ProductPage({
   if (!product) {
     notFound();
   }
-
-  //   const otherProducts = store
-  //     ? await db
-  //         .select({
-  //           id: products.id,
-  //           name: products.name,
-  //           price: products.price,
-  //           images: products.images,
-  //           category: categories.name,
-  //           inventory: products.inventory,
-  //           rating: products.rating,
-  //         })
-  //         .from(products)
-  //         .leftJoin(categories, eq(products.categoryId, categories.id))
-  //         .limit(4)
-  //         .where(
-  //           and(
-  //             eq(products.storeId, product.storeId),
-  //             not(eq(products.id, productId))
-  //           )
-  //         )
-  //         .orderBy(desc(products.inventory))
-  //     : []
-
-  // const product = {
-  //   id: "STREET2024",
-  //   name: "Unisex Streetwear Bomber Jacket",
-  //   description:
-  //     "Elevate your street style with this unisex bomber jacket. Featuring a sleek design, durable zippers, ribbed cuffs, and a bold graphic print on the back.",
-  //   price: 149.99,
-  //   images: [
-  //     {
-  //       id: "1",
-  //       name: "Jacket",
-  //       url: "https://i.pinimg.com/564x/1c/79/64/1c7964c71fce11fd48942cc3b08663f1.jpg",
-  //     },
-  //     {
-  //       id: "2",
-  //       name: "Jacket",
-  //       url: "https://i.pinimg.com/564x/fe/d0/e3/fed0e38c6a887f56cdf7f0f2ef182927.jpg",
-  //     },
-  //   ],
-  //   inventory: 100,
-  // };
 
   function getTotalStock(inventory: ProductInventory[] | null): number {
     if (!inventory) {
@@ -148,7 +95,7 @@ export default async function ProductPage({
           </div>
           <Separator className="my-1.5" />
           <p className="text-base text-muted-foreground">
-            {getTotalStock(product.inventory)} in stock
+            {getTotalStock(product.inventory)} en stock
           </p>
           <AddToCartForm product={product as Product} showBuyNow={true} />
           <Separator className="mt-5" />
@@ -156,13 +103,13 @@ export default async function ProductPage({
             type="single"
             collapsible
             className="w-full"
-            defaultValue="description"
+            defaultValue="Descripción"
           >
-            <AccordionItem value="description" className="border-none">
-              <AccordionTrigger>Description</AccordionTrigger>
+            <AccordionItem value="Descripción" className="border-none">
+              <AccordionTrigger>Descripción</AccordionTrigger>
               <AccordionContent>
                 {product.description ??
-                  "No description is available for this product."}
+                  "No hay descripción disponible para este producto."}
               </AccordionContent>
             </AccordionItem>
           </Accordion>

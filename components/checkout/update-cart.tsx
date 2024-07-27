@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { CartLineItem, CartLineItemWithSize } from "@/types";
+import type { CartLineItem } from "@/types";
 import { MinusIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 
 import { deleteCartItem, updateCartItem } from "@/lib/actions/cart";
@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "../ui/use-toast";
 
 interface UpdateCartProps {
-  cartLineItem: CartLineItemWithSize;
+  cartLineItem: CartLineItem;
 }
 
 export function UpdateCart({ cartLineItem }: UpdateCartProps) {
@@ -28,7 +28,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
     startTransition(() => {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
       const itemIndex = cart.findIndex(
-        (item: CartLineItemWithSize) =>
+        (item: CartLineItem) =>
           item.id === cartLineItem.id && item.size === cartLineItem.size
       );
       if (itemIndex !== -1) {
@@ -45,7 +45,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
     startTransition(() => {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
       const itemIndex = cart.findIndex(
-        (item: CartLineItemWithSize) =>
+        (item: CartLineItem) =>
           item.id === cartLineItem.id && item.size === cartLineItem.size
       );
       if (itemIndex !== -1) {
@@ -64,7 +64,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
 
       // Filter out items with matching ID and size
       const updatedCart = cart.filter(
-        (item: CartLineItemWithSize) => !(item.id === id && item.size === size)
+        (item: CartLineItem) => !(item.id === id && item.size === size)
       );
 
       updateLocalStorageCart(updatedCart);
@@ -101,7 +101,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
           disabled={isPending}
         >
           <MinusIcon className="size-3" aria-hidden="true" />
-          <span className="sr-only">Remove one item</span>
+          <span className="sr-only">Retirar un artículo</span>
         </Button>
         <Input
           id={`${id}-quantity`}

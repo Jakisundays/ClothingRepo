@@ -32,7 +32,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { initMercadoPago } from "@mercadopago/sdk-react";
 import { EmptyCart } from "@/components/empty-cart";
 import { Button } from "@/components/ui/button";
 import { CartLineItem } from "@/types";
@@ -163,20 +163,15 @@ const CartPage = () => {
   return (
     <main className="container mx-auto my-8 grid grid-cols-1 gap-8 md:grid-cols-[2fr_1fr]">
       <div>
-        <h1 className="text-2xl font-bold">Your Cart</h1>
+        <h1 className="text-2xl font-bold">Tu carrito</h1>
         <div className="mt-4 space-y-4">
-          <CartLineItems
-            isScrollable={false}
-            // variant="minimal"
-            items={cart}
-            // className="scroll-smooth overflow-y-auto"
-          />
+          <CartLineItems isScrollable={false} items={cart} />
         </div>
       </div>
       <div className="space-y-4">
         <Card>
           <CardHeader>
-            <CardTitle>Order Summary</CardTitle>
+            <CardTitle>Detalles del pedido</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
@@ -184,8 +179,8 @@ const CartPage = () => {
               <span>{formatPrice(cartTotal.toFixed(2))}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Shipping</span>
-              <span>Free</span>
+              <span>Envío</span>
+              <span>Gratis</span>
             </div>
             <Separator />
             <div className="flex items-center justify-between font-medium">
@@ -198,7 +193,7 @@ const CartPage = () => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="">
               <CardHeader>
-                <CardTitle>Shipping & Payment</CardTitle>
+                <CardTitle>Envío y Pago</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -337,17 +332,8 @@ const CartPage = () => {
                   className="w-full"
                   // onClick={handleBuy}
                 >
-                  Place Order
+                  Confirmar Pedido
                 </Button>
-                {/* <Wallet
-                  initialization={{
-                    preferenceId: "wallet_container",
-                  }}
-                  customization={{
-                    texts: { valueProp: "payment_methods_logos" },
-                  }}
-                  locale="es-AR"
-                /> */}
               </CardFooter>
             </form>
           </Form>
@@ -372,47 +358,6 @@ function MinusIcon(props: any) {
       strokeLinejoin="round"
     >
       <path d="M5 12h14" />
-    </svg>
-  );
-}
-
-function Package2Icon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
-      <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
-      <path d="M12 3v6" />
-    </svg>
-  );
-}
-
-function PlusIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
     </svg>
   );
 }
