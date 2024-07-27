@@ -20,6 +20,7 @@ export default async function Lobby({ productsPromise }: LobbyProps) {
           fill
           style={{ objectFit: "cover", objectPosition: "center" }}
           sizes="100vw"
+          priority
         />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">

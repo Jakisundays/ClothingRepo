@@ -14,6 +14,7 @@ export function LobbySkeleton() {
           fill
           style={{ objectFit: "cover", objectPosition: "center" }}
           sizes="100vw"
+          priority
         />
       </div>
       <ContentSection
