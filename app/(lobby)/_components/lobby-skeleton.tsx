@@ -6,7 +6,7 @@ import Image from "next/image";
 export function LobbySkeleton() {
   return (
     <div className="h-full min-h-[calc(100vh-80px)]">
-      <div className="h-full min-h-[60vh] md:min-h-[calc(50vh-20px)] block bg-cover bg-center relative">
+      <div className="h-full min-h-[50vh] md:min-h-[calc(50vh-20px)] block bg-cover bg-center relative">
         <Image
           alt="AlterEgo4k-bg"
           src={introBg}

@@ -75,7 +75,7 @@ export function CartSheet() {
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
         <SheetHeader className="space-y-2.5 pr-6">
-          <SheetTitle>Cart {itemCount > 0 && `(${itemCount})`}</SheetTitle>
+          <SheetTitle>Carrito {itemCount > 0 && `(${itemCount})`}</SheetTitle>
           <Separator />
         </SheetHeader>
         {itemCount > 0 ? (
