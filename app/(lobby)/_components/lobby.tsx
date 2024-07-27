@@ -1,7 +1,7 @@
 import { type getFeaturedProducts } from "@/lib/fetchers/product";
 
 import ProductCard from "./product-card";
-import introBg from "@/public/intro/intro-1.jpg";
+import introBg from "@/public/intro/intro-3.webp";
 import Image from "next/image";
 
 interface LobbyProps {
@@ -16,7 +16,7 @@ export default async function Lobby({ productsPromise }: LobbyProps) {
         <Image
           alt="AlterEgo4k-bg"
           src={introBg}
-          quality={100}
+          // quality={100}
           fill
           style={{ objectFit: "cover", objectPosition: "center" }}
           sizes="100vw"

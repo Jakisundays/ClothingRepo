@@ -1,6 +1,6 @@
 import { ContentSection } from "@/components/shells/content-section";
 import { ProductCardSkeleton } from "@/components/skeletons/product-card-skeleton";
-import introBg from "@/public/intro/intro-1.jpg";
+import introBg from "@/public/intro/intro-3.webp";
 import Image from "next/image";
 
 export function LobbySkeleton() {
@@ -10,7 +10,7 @@ export function LobbySkeleton() {
         <Image
           alt="AlterEgo4k-bg"
           src={introBg}
-          quality={100}
+          // quality={100}
           fill
           style={{ objectFit: "cover", objectPosition: "center" }}
           sizes="100vw"
