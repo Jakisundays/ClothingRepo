@@ -22,7 +22,6 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { CartLineItems } from "@/components/checkout/cart-line-items";
-import { formatPrice } from "@/lib/utils";
 import {
   FormControl,
   Form,
@@ -176,7 +175,7 @@ const CartPage = () => {
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
               <span>Subtotal</span>
-              <span>{formatPrice(cartTotal.toFixed(2))}</span>
+              <span>${cartTotal.toFixed(2)}</span>
             </div>
             <div className="flex items-center justify-between">
               <span>Envío</span>
@@ -185,7 +184,7 @@ const CartPage = () => {
             <Separator />
             <div className="flex items-center justify-between font-medium">
               <span>Total</span>
-              <span>{formatPrice(cartTotal.toFixed(2))}</span>
+              <span>${cartTotal.toFixed(2)}</span>
             </div>
           </CardContent>
         </Card>

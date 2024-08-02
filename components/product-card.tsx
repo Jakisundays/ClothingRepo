@@ -5,10 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { type Product } from "@/db/schema";
 import { CheckIcon, EyeOpenIcon, PlusIcon } from "@radix-ui/react-icons";
-// import { toast } from "sonner"
-
-import { addToCart } from "@/lib/actions/cart";
-import { cn, formatPrice } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -71,7 +68,7 @@ export function ProductCard({
         <CardContent className="space-y-1.5 p-4">
           <CardTitle className="line-clamp-1">{product.name}</CardTitle>
           <CardDescription className="line-clamp-1">
-            {formatPrice(product.price)}
+            {product.price}
           </CardDescription>
         </CardContent>
       </Link>

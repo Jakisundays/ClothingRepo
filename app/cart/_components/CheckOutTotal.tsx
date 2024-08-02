@@ -1,6 +1,5 @@
 import { CartLineItems } from "@/components/checkout/cart-line-items";
 import { Separator } from "@/components/ui/separator";
-import { formatPrice } from "@/lib/utils";
 import { CartLineItem } from "@/types";
 
 interface CheckOutTotalProps {
@@ -24,7 +23,7 @@ const CheckOutTotal = ({ cart }: CheckOutTotalProps) => {
           </div>
           <div className="flex">
             <span className="flex-1">Total</span>
-            <span>{formatPrice(cartTotal.toFixed(2))}</span>
+            <span>{cartTotal.toFixed(2)}</span>
           </div>
         </div>
       </div>
