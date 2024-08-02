@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 
-import { formatPrice, toTitleCase } from "@/lib/utils";
+import { toTitleCase } from "@/lib/utils";
 import {
   Accordion,
   AccordionContent,
@@ -39,7 +39,9 @@ export async function generateMetadata({
   }
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+    metadataBase: new URL(
+      `https://alterego4k.com.ar/product/${params.product_id}`
+    ),
     title: toTitleCase(product.name),
     description: product.description,
   };
