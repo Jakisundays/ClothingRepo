@@ -37,7 +37,7 @@ const ProductCard = ({ id, name, images, price }: Product) => {
   return (
     <Link
       href={`/product/${id}`}
-      className="flex flex-col justify-center items-center gap-1 p-6 cursor-pointer font-unna"
+      className="flex flex-col justify-center items-center gap-1 p-6 cursor-pointer font-unna text-center"
     >
       <Image
         src={currentImage}
@@ -47,7 +47,7 @@ const ProductCard = ({ id, name, images, price }: Product) => {
         height={350}
         alt="product"
       />
-      <label className="text-lg tracking-normal">{name}</label>
+      <label className="tracking-normal">{name}</label>
       <label className="tracking-normal">$ {extractIntegerPart(price)}</label>
     </Link>
   );
