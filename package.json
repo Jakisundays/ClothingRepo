@@ -8,6 +8,7 @@
     "start": "next start",
     "db:generate": "npx drizzle-kit generate",
     "db:push": "npx drizzle-kit push",
+    "db:migrate": "npx drizzle-orm migrate:apply",
     "db:studio": "npx drizzle-kit studio --verbose",
     "lint": "next lint",
     "email": "email dev"

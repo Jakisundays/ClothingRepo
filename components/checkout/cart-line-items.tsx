@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { CartLineItem, CartLineItemWithSize } from "@/types";
+import type { CartLineItem } from "@/types";
 import { Slot } from "@radix-ui/react-slot";
 
 import { cn, formatPrice } from "@/lib/utils";
@@ -9,7 +9,7 @@ import { UpdateCart } from "@/components/checkout/update-cart";
 import { Icons } from "@/components/icons";
 
 interface CartLineItemsProps extends React.HTMLAttributes<HTMLDivElement> {
-  items: CartLineItemWithSize[];
+  items: CartLineItem[];
   isScrollable?: boolean;
   isEditable?: boolean;
   variant?: "default" | "minimal";
@@ -35,7 +35,7 @@ export function CartLineItems({
         )}
         {...props}
       >
-        {items.map((item: CartLineItemWithSize) => (
+        {items.map((item: CartLineItem) => (
           <div key={item.id} className="space-y-3">
             <div
               className={cn(
@@ -45,35 +45,35 @@ export function CartLineItems({
             >
               <div className="flex items-center space-x-4">
                 {/* {variant === "default" ? ( */}
-                  <div className="relative aspect-square size-16 min-w-fit overflow-hidden rounded">
-                    {item?.images?.length ? (
-                      <Image
-                        src={
-                          item.images[0]?.url ??
-                          "/images/product-placeholder.webp"
-                        }
-                        alt={item.images[0]?.name ?? item.name}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        fill
-                        className="absolute object-cover"
-                        loading="lazy"
+                <div className="relative aspect-square size-16 min-w-fit overflow-hidden rounded">
+                  {item?.images?.length ? (
+                    <Image
+                      src={
+                        item.images[0]?.url ??
+                        "/images/product-placeholder.webp"
+                      }
+                      alt={item.images[0]?.name ?? item.name}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      fill
+                      className="absolute object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-secondary">
+                      <Icons.placeholder
+                        className="size-4 text-muted-foreground"
+                        aria-hidden="true"
                       />
-                    ) : (
-                      <div className="flex h-full items-center justify-center bg-secondary">
-                        <Icons.placeholder
-                          className="size-4 text-muted-foreground"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
+                </div>
                 {/* // ) : null} */}
                 <div className="flex flex-col space-y-1 self-start">
                   <span className="line-clamp-1 text-sm font-medium">
                     {item.name}
                   </span>
                   <span className="line-clamp-1 text-xs text-muted-foreground font-semibold">
-                    {item.size}
+                    Talle: {item.size}
                   </span>
                   {isEditable ? (
                     <span className="line-clamp-1 text-xs text-muted-foreground">
@@ -84,7 +84,7 @@ export function CartLineItems({
                     </span>
                   ) : (
                     <span className="line-clamp-1 text-xs text-muted-foreground">
-                      Qty {item.quantity}
+                      Cantidad {item.quantity}
                     </span>
                   )}
                 </div>

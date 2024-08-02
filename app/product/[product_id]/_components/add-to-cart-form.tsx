@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { cn } from "@/lib/utils";
@@ -114,7 +113,7 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
             name="quantity"
             render={({ field }) => (
               <FormItem className="space-y-0">
-                <FormLabel className="sr-only">Quantity</FormLabel>
+                <FormLabel className="sr-only">Cantidad</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -146,7 +145,7 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
             disabled={isAddingToCart}
           >
             <PlusIcon className="size-3" aria-hidden="true" />
-            <span className="sr-only">Add one item</span>
+            <span className="sr-only">Añadir un producto</span>
           </Button>
         </div>
         <FormField

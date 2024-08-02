@@ -11,9 +11,7 @@ import {
   text,
   timestamp,
   varchar,
-  pgEnum,
   boolean,
-  numeric,
   jsonb,
   bigint,
 } from "drizzle-orm/pg-core";
@@ -39,6 +37,7 @@ export type NewProduct = typeof products.$inferInsert;
 
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
+  product_id: integer("product_id").references(() => products.id), // Foreign key to products table
   items: json("items").$type<Items[] | null>().default(null),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -48,6 +47,10 @@ export const ordersRelations = relations(orders, ({ one }) => ({
   payment: one(payments, {
     fields: [orders.id],
     references: [payments.order_id],
+  }),
+  product: one(products, {
+    fields: [orders.product_id],
+    references: [products.id],
   }),
 }));
 

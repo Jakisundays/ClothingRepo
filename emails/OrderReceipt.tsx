@@ -11,6 +11,8 @@ import {
   Row,
   Section,
   Text,
+  Font,
+  Heading,
 } from "@react-email/components";
 import { Items } from "mercadopago/dist/clients/commonTypes";
 import * as React from "react";
@@ -78,19 +80,18 @@ export const OrderReceipt = ({
 
     <Body style={main}>
       <Container style={container}>
+        <Section style={{ textAlign: "center" }}>
+          <Img
+            src="https://h4bobk3u5rd9ijmz.public.blob.vercel-storage.com/alteregologo-j5l2hI36LGg70yRivvKbneTxWstPvL.png"
+            width="114"
+            alt="Logo"
+            style={{ display: "inline-block" }}
+          />
+        </Section>
         <Section>
-          <Row>
-            <Column>
-              <Text style={heading}>ALTEREGO 4K</Text>
-            </Column>
-
-            <Column align="right" style={tableCell}>
-              <Text style={heading}>Recibo</Text>
-            </Column>
-          </Row>
-        </Section>{" "}
-        <Section>
-          <Text style={cupomText}>tu pedido fue confirmado.</Text>
+          <Text style={cupomText}>
+            Tu pedido fue <strong>confirmado.</strong>
+          </Text>
         </Section>
         <Section style={informationTable}>
           <Row style={informationTableRow}>
@@ -211,10 +212,86 @@ export const OrderReceipt = ({
           </Row>
         </Section>
         <Hr style={productPriceLineBottom} />
-        <Text style={footerCopyright}>
-          Copyright © 2024 Alter Ego 4k. <br />{" "}
-          <Link href="https://www.alterego.com.ar">All rights reserved</Link>
+        <Text style={thanks}>
+          <strong>
+            Apenas se realice el envío te llegará un mail con el código de
+            seguimiento.
+            <br />
+          </strong>
+          Gracias por tu compra.
         </Text>
+        <Row
+          style={{
+            margin: "10px 0 0 0",
+          }}
+        >
+          <Column
+            align="right"
+            style={{ width: "50px", paddingRight: "8px", opacity: 0 }}
+          >
+            <Link href="https://www.instagram.com/alterego4k/">
+              <Img
+                src={
+                  "https://cdn-icons-png.flaticon.com/256/15713/15713420.png"
+                }
+                style={{ width: "24px", height: "24px" }} // Adjust size here
+              />
+            </Link>
+          </Column>
+          <Column
+            align="left"
+            style={{ width: "50px", paddingLeft: "8px", opacity: 0 }}
+          >
+            <Link href="https://wa.me/5492646274890?text=Hola%20quiero%20hacer%20una%20consulta">
+              <Img
+                src={"https://cdn-icons-png.flaticon.com/256/5968/5968841.png"}
+                style={{ width: "24px", height: "24px" }} // Adjust size here
+              />
+            </Link>
+          </Column>
+          <Column align="right" style={{ width: "50px", paddingRight: "8px" }}>
+            <Link href="https://www.instagram.com/alterego4k/">
+              <Img
+                src={
+                  "https://cdn-icons-png.flaticon.com/256/15713/15713420.png"
+                }
+                style={{ width: "24px", height: "24px" }} // Adjust size here
+              />
+            </Link>
+          </Column>
+          <Column align="left" style={{ width: "50px", paddingLeft: "8px" }}>
+            <Link href="https://wa.me/5492646274890?text=Hola%20quiero%20hacer%20una%20consulta">
+              <Img
+                src={"https://cdn-icons-png.flaticon.com/256/5968/5968841.png"}
+                style={{ width: "24px", height: "24px" }} // Adjust size here
+              />
+            </Link>
+          </Column>
+          <Column
+            align="right"
+            style={{ width: "50px", paddingRight: "8px", opacity: 0 }}
+          >
+            <Link href="https://www.instagram.com/alterego4k/">
+              <Img
+                src={
+                  "https://cdn-icons-png.flaticon.com/256/15713/15713420.png"
+                }
+                style={{ width: "24px", height: "24px" }} // Adjust size here
+              />
+            </Link>
+          </Column>
+          <Column
+            align="left"
+            style={{ width: "50px", paddingLeft: "8px", opacity: 0 }}
+          >
+            <Link href="https://wa.me/5492646274890?text=Hola%20quiero%20hacer%20una%20consulta">
+              <Img
+                src={"https://cdn-icons-png.flaticon.com/256/5968/5968841.png"}
+                style={{ width: "24px", height: "24px" }} // Adjust size here
+              />
+            </Link>
+          </Column>
+        </Row>
       </Container>
     </Body>
   </Html>
@@ -285,7 +362,7 @@ const tableCell = { display: "table-cell" };
 const heading = {
   fontSize: "32px",
   fontWeight: "300",
-  color: "#888888",
+  color: "black",
 };
 
 const cupomText = {
@@ -294,10 +371,6 @@ const cupomText = {
   fontSize: "14px",
   fontWeight: "500",
   color: "#111111",
-};
-
-const supStyle = {
-  fontWeight: "300",
 };
 
 const informationTable = {
@@ -362,19 +435,6 @@ const productDescription = {
   ...resetText,
 };
 
-const productLink = {
-  fontSize: "12px",
-  color: "rgb(0,112,201)",
-  textDecoration: "none",
-};
-
-const divisor = {
-  marginLeft: "4px",
-  marginRight: "4px",
-  color: "rgb(51,51,51)",
-  fontWeight: 200,
-};
-
 const productPriceTotal = {
   margin: "0",
   color: "rgb(102,102,102)",
@@ -415,65 +475,26 @@ const productPriceVerticalLine = {
 
 const productPriceLargeWrapper = { display: "table-cell", width: "90px" };
 
-const productPriceLineBottom = { margin: "0 0 75px 0" };
-
-const block = { display: "block" };
-
-const ctaTitle = {
-  display: "block",
-  margin: "15px 0 0 0",
-};
-
-const ctaText = { fontSize: "24px", fontWeight: "500" };
-
-const walletWrapper = { display: "table-cell", margin: "10px 0 0 0" };
-
-const walletLink = { color: "rgb(0,126,255)", textDecoration: "none" };
-
-const walletImage = {
-  display: "inherit",
-  paddingRight: "8px",
-  verticalAlign: "middle",
-};
-
-const walletBottomLine = { margin: "65px 0 20px 0" };
-
-const footerText = {
-  fontSize: "12px",
-  color: "rgb(102,102,102)",
-  margin: "0",
-  lineHeight: "auto",
-  marginBottom: "16px",
-};
-
-const footerTextCenter = {
-  fontSize: "12px",
-  color: "rgb(102,102,102)",
-  margin: "20px 0",
-  lineHeight: "auto",
-  textAlign: "center" as const,
-};
-
-const footerLink = { color: "rgb(0,115,255)" };
-
-const footerIcon = { display: "block", margin: "40px 0 0 0" };
-
-const footerLinksWrapper = {
-  margin: "8px 0 0 0",
-  textAlign: "center" as const,
-  fontSize: "12px",
-  color: "rgb(102,102,102)",
-};
+const productPriceLineBottom = { margin: "0 0 25px 0" };
 
 const footerCopyright = {
-  margin: "25px 0 0 0",
+  margin: "15px 0 0 0",
   textAlign: "center" as const,
   fontSize: "12px",
   color: "rgb(102,102,102)",
 };
 
-const walletLinkText = {
-  fontSize: "14px",
-  fontWeight: "400",
-  textDecoration: "none",
+const thanks = {
+  margin: "0 0 20px 0",
+  textAlign: "center" as const,
+  fontSize: "12px",
+  color: "rgb(102,102,102)",
+};
+
+const logo = {
+  fontFamily: "'IBM Plex Sans Condensed', Arial, sans-serif",
+  fontSize: "35px",
+  fontWeight: 500,
+  textAlign: "center" as const,
+  margin: "20px 0",
 };

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Unna } from "next/font/google";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,8 +9,19 @@ import { absoluteUrl, cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers";
 import { SiteHeader } from "@/components/layouts/site-header";
+import LayoutFooter from "@/components/LayoutFooter";
 
-const inter = Inter({ subsets: ["latin"] });
+const unna = Unna({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  variable: "--font-unna",
+});
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -71,7 +83,8 @@ export default function RootLayout({
       <html lang="en">
         <body
           className={cn(
-            inter.className,
+            unna.variable,
+            inter.variable,
             "min-h-screen bg-background font-sans antialiased"
           )}
         >
@@ -86,6 +99,7 @@ export default function RootLayout({
                 <SiteHeader user={null} />
 
                 {children}
+                <LayoutFooter />
               </main>
             </div>
             <Toaster />

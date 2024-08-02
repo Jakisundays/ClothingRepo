@@ -88,15 +88,15 @@ export default async function ProductPage({
         <Separator className="mt-4 md:hidden" />
         <div className="flex w-full flex-col gap-4 md:w-1/2">
           <div className="space-y-2">
-            <h2 className="line-clamp-1 text-2xl font-bold">{product.name}</h2>
-            <p className="text-base text-muted-foreground">
-              {formatPrice(product.price)}
-            </p>
+            <h2 className="line-clamp-1 text-2xl font-bold font-unna">
+              {product.name}
+            </h2>
+            <p className="text-base text-muted-foreground">$ {product.price}</p>
           </div>
           <Separator className="my-1.5" />
-          <p className="text-base text-muted-foreground">
+          {/* <p className="text-base text-muted-foreground">
             {getTotalStock(product.inventory)} en stock
-          </p>
+          </p> */}
           <AddToCartForm product={product as Product} showBuyNow={true} />
           <Separator className="mt-5" />
           <Accordion

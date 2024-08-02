@@ -85,14 +85,6 @@ export function CartSheet() {
               <Separator />
               <div className="space-y-1.5 text-sm">
                 <div className="flex">
-                  <span className="flex-1">Envío</span>
-                  <span>Gratis</span>
-                </div>
-                <div className="flex">
-                  <span className="flex-1">Impuestos</span>
-                  <span>Calculado al finalizar la compra</span>
-                </div>
-                <div className="flex">
                   <span className="flex-1">Total</span>
                   <span>{formatPrice(cartTotal.toFixed(2))}</span>
                 </div>

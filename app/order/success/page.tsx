@@ -1,129 +1,252 @@
 "use client";
+
 import { useSearchParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+interface ClientDetails {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  province: string;
+  postal_code: string;
+  apartment: string;
+}
+
+interface Product {
+  category_id: string | null;
+  description: string;
+  id: string;
+  picture_url: string;
+  quantity: string;
+  title: string;
+  unit_price: string;
+}
+
+interface OrderData {
+  clientDetails: ClientDetails;
+  products: Product[];
+  totalAmountPaid: number;
+  date_approved: string;
+  status: string;
+}
 
 const OrderSuccess = () => {
   const searchParams = useSearchParams();
-  const proved = searchParams.get("proved");
   const paymentId = searchParams.get("payment_id");
-  const status = searchParams.get("status");
-  const externalReference = searchParams.get("external_reference");
-  const paymentType = searchParams.get("payment_type");
-  const merchantOrderId = searchParams.get("merchant_order_id");
-  const preferenceId = searchParams.get("preference_id");
-  const siteId = searchParams.get("site_id");
-  const processingMode = searchParams.get("processing_mode");
-  const merchantAccountId = searchParams.get("merchant_account_id");
 
-  const getOrderById = async (orderId: string = "82696757426") => {
-    try {
-      const response = await fetch(`/api/payment/mp/checkOrder/${orderId}`);
-      const data = await response.json();
-      console.log({ data });
-    } catch (error) {
-      console.error({ error });
-    }
-  };
+  const [orderData, setOrderData] = useState<OrderData | null>(null);
+
+  useEffect(() => {
+    const orderId = "82696757426";
+
+    const getOrderById = async () => {
+      try {
+        const response = await fetch(`/api/payment/mp/checkOrder/${orderId}`);
+        const data = await response.json();
+        setOrderData(data);
+        console.log({ data });
+      } catch (error) {
+        console.error({ error });
+      }
+    };
+
+    getOrderById();
+  }, [paymentId]);
+
+  if (!orderData) {
+    return (
+      <div className="bg-background text-foreground">
+        <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between border-b border-muted pb-4">
+            <div className="flex items-center gap-4">
+              <Skeleton className="h-8 w-8 rounded-full" />
+              <Skeleton className="h-6 w-24" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-8 w-20" />
+              <Skeleton className="h-8 w-20" />
+            </div>
+          </div>
+          <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div>
+              <Skeleton className="h-6 w-32" />
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <Skeleton className="h-6 w-32" />
+              <div className="mt-4 space-y-2">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-4 w-32" />
+              </div>
+            </div>
+          </div>
+          <div className="mt-8">
+            <Skeleton className="h-6 w-32" />
+            <div className="mt-4 space-y-4">
+              <div className="grid grid-cols-[80px_1fr_80px_80px] items-center gap-4 rounded-lg border border-muted p-4">
+                <Skeleton className="h-20 w-20 rounded-md" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-4 w-48" />
+                </div>
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+              <div className="grid grid-cols-[80px_1fr_80px_80px] items-center gap-4 rounded-lg border border-muted p-4">
+                <Skeleton className="h-20 w-20 rounded-md" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-4 w-48" />
+                </div>
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+            </div>
+          </div>
+          <div className="mt-8 border-t border-muted pt-4">
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-16" />
+            </div>
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-16" />
+            </div>
+            <div className="mt-2 flex items-center justify-between">
+              <Skeleton className="h-6 w-20" />
+              <Skeleton className="h-6 w-20" />
+            </div>
+          </div>
+          <div className="mt-8 text-center text-muted-foreground">
+            <Skeleton className="h-4 w-48" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    // <div>
-    //   <p>Proved: {proved}</p>
-    //   <p>Payment ID: {paymentId}</p>
-    //   <p>Status: {status}</p>
-    //   <p>External Reference: {externalReference}</p>
-    //   <p>Payment Type: {paymentType}</p>
-    //   <p>Merchant Order ID: {merchantOrderId}</p>
-    //   <p>Preference ID: {preferenceId}</p>
-    //   <p>Site ID: {siteId}</p>
-    //   <p>Processing Mode: {processingMode}</p>
-    //   <p>Merchant Account ID: {merchantAccountId}</p>
-    //   <Button onClick={() => getOrderById("82696757426")}>GO</Button>
-    // </div>
-    <div className="bg-background text-foreground">
+    <div className="bg-background text-foreground h-full min-h-[calc(100vh-120px)]">
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between border-b border-muted pb-4">
           <div className="flex items-center gap-4">
             <Package2Icon className="h-6 w-6 text-primary" />
-            <h2 className="text-xl font-bold">Receipt</h2>
+            <h2 className="text-xl font-bold">Estado de la compra</h2>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="outline">Approved</Badge>
+            <Badge variant="outline" className="text-lg">
+              {orderData.status}
+            </Badge>
           </div>
         </div>
         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
           <div>
-            <h2 className="text-lg font-semibold">Customer Information</h2>
+            <h2 className="text-lg font-semibold">Detalles</h2>
             <div className="mt-4 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Name:</span>
-                <span>Sophia Anderson</span>
+                <span className="text-muted-foreground">Nombre:</span>
+                <span>{`${orderData.clientDetails.first_name} ${orderData.clientDetails.last_name}`}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Email:</span>
                 <span>
                   <Link
-                    href="#"
+                    href={`mailto:${orderData.clientDetails.email}`}
                     className="text-blue-600 underline"
                     prefetch={false}
                   >
-                    sophia@example.com
+                    {orderData.clientDetails.email}
                   </Link>
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Phone:</span>
+                <span className="text-muted-foreground">Telefono:</span>
                 <span>
                   <Link
-                    href="#"
+                    href={`tel:${orderData.clientDetails.phone}`}
                     className="text-blue-600 underline"
                     prefetch={false}
                   >
-                    +1 (234) 567-890
+                    {orderData.clientDetails.phone}
                   </Link>
                 </span>
               </div>
             </div>
           </div>
           <div>
-            <h2 className="text-lg font-semibold">Shipping Address</h2>
+            <h2 className="text-lg font-semibold">Dirección de entrega</h2>
             <div className="mt-4 space-y-2">
-              <div>Sophia Anderson</div>
-              <div>1234 Main St.</div>
-              <div>Anytown, CA 12345</div>
+              <div>{`${orderData.clientDetails.first_name} ${orderData.clientDetails.last_name}`}</div>
+              <div>{orderData.clientDetails.address}</div>
+              <div>{orderData.clientDetails.province}</div>
+              <div>{orderData.clientDetails.postal_code}</div>
+              <div>{orderData.clientDetails.apartment}</div>
             </div>
           </div>
         </div>
         <div className="mt-8">
-          <h2 className="text-lg font-semibold">Order Details</h2>
+          <h2 className="text-lg font-semibold">Información del pedido</h2>
           <div className="mt-4 space-y-4">
-            <div className="flex justify-between items-center gap-4 rounded-lg border border-muted p-4">
-              <div className="flex items-center gap-3">
-                <Image
-                  src="https://i.pinimg.com/564x/3c/0c/bf/3c0cbf27f171f72dd63cda7687ef7169.jpg"
-                  alt="Product Image"
-                  width={80}
-                  height={80}
-                  className="rounded-md"
-                />
-                <div>
-                  <h3 className="text-base font-semibold">Aqua Filters</h3>
-                  <p className="text-xs text-muted-foreground">Talle: SM</p>
-                  <p className="text-xs text-muted-foreground">Cantidad: 3</p>
+            {orderData.products.map((product) => (
+              <div
+                key={product.id}
+                className="flex justify-between items-center gap-4 rounded-lg border border-muted p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <Image
+                    src={product.picture_url}
+                    alt="Product Image"
+                    width={80}
+                    height={80}
+                    className="rounded-md"
+                  />
+                  <div>
+                    <h3 className="text-base font-semibold">{product.title}</h3>
+                    <p className="text-xs text-muted-foreground">
+                      {product.description}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Cantidad: {product.quantity}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right font-semibold">
+                  ${product.unit_price}
                 </div>
               </div>
-              <div className="text-right font-semibold">$49.00</div>
-            </div>
+            ))}
           </div>
         </div>
         <div className="mt-8 border-t border-muted pt-4">
           <div className="mt-2 flex items-center justify-between">
             <span className="text-lg font-semibold">Total:</span>
-            <span className="text-lg font-semibold">$150.00</span>
+            <span className="text-lg font-semibold">
+              ${orderData.totalAmountPaid}
+            </span>
           </div>
         </div>
         <div className="mt-8 text-center text-muted-foreground">
-          Thank you for your purchase!
+          ¡Gracias por elegirnos!
         </div>
       </div>
     </div>

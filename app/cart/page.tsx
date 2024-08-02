@@ -98,14 +98,14 @@ const CartPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "jacob@gmail.com",
-      firstName: "Jacob",
-      lastName: "Dom",
-      address: "palermo 1234",
-      apartment: "2w",
-      postalCode: "b7400",
+      email: "leomessi10@argentina.com",
+      firstName: "Leo",
+      lastName: "Messi",
+      address: "Qatar 22",
+      apartment: "4E",
+      postalCode: "B7400",
       province: "Buenos Aires",
-      phone: "1234567890",
+      phone: "+54 911 1003-0245",
     },
   });
 

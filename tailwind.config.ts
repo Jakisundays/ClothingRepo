@@ -19,6 +19,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        inter: ["var(--font-inter)"],
+        unna: ["var(--font-unna)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
