@@ -47,7 +47,7 @@ const ProductCard = ({ id, name, images, price }: Product) => {
         height={350}
         alt="product"
       />
-      <label className="tracking-normal">{name}</label>
+      <label className="tracking-normal italic">{name}</label>
       <label className="tracking-normal">$ {extractIntegerPart(price)}</label>
     </Link>
   );

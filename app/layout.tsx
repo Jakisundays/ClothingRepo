@@ -12,6 +12,7 @@ import LayoutFooter from "@/components/LayoutFooter";
 const unna = Unna({
   subsets: ["latin"],
   weight: ["400", "700"],
+  style: ["normal", "italic"],
   display: "swap",
   variable: "--font-unna",
 });
