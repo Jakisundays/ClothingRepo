@@ -13,6 +13,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
+  console.log({ body });
   // console.log("Webhook:", body);
   // Webhook: {
   //   action: 'payment.updated',
@@ -27,6 +28,9 @@ export async function POST(request: NextRequest) {
   const payment = new Payment(client);
   // const paymentInfo = await payment.get({ id: "82696757426" });
   const paymentInfo = await payment.get({ id: body.data.id });
+
+  console.log({ payment });
+
   // console.log({
   //   item: paymentInfo.additional_info?.items,
   //   date: paymentInfo.date_approved,
@@ -164,6 +168,8 @@ export async function POST(request: NextRequest) {
 
     const createdOrder = await insertOrder(newOrder);
 
+    console.log({ createdOrder });
+
     const orderId = createdOrder[0].id;
 
     console.log({ orderId });
@@ -206,6 +212,8 @@ export async function POST(request: NextRequest) {
 
     const paymentId = await insertPayment(newPayment);
 
+    console.log({ paymentId });
+
     // metadata: {
     //   first_name: 'Jacob',
     //   last_name: 'Dom',
@@ -221,7 +229,7 @@ export async function POST(request: NextRequest) {
 
     const { error } = await resend.emails.send({
       from: "Alter Ego 4K <noreply@alterego4k.com.ar>",
-      to: ["jacobguillermooo@gmail.com", clientEmail],
+      to: ["contact.tomasromero@gmail.com", clientEmail],
       subject: "Hello world",
       react: OrderReceipt({
         id: body.data.id,
