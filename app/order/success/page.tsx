@@ -43,11 +43,9 @@ const OrderSuccess = () => {
   const [orderData, setOrderData] = useState<OrderData | null>(null);
 
   useEffect(() => {
-    const orderId = "82696757426";
-
     const getOrderById = async () => {
       try {
-        const response = await fetch(`/api/payment/mp/checkOrder/${orderId}`);
+        const response = await fetch(`/api/payment/mp/checkOrder/${paymentId}`);
         const data = await response.json();
         setOrderData(data);
         console.log({ data });
