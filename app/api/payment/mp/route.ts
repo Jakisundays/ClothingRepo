@@ -33,8 +33,6 @@ export async function POST(request: NextRequest) {
   const { data, cart } = await request.json();
   const transformedItems = transformToItems(cart);
 
-  console.log({ transformedItems });
-
   const preference = new Preference(client);
   const preferenceInfo = await preference.create({
     body: {
@@ -57,6 +55,8 @@ export async function POST(request: NextRequest) {
       },
     },
   });
+
+  console.log({ preferenceInfo });
 
   //   return "cool";
   return new Response(JSON.stringify(preferenceInfo));
