@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_ROUTE}/api/payments/mercadopago/createPayedOrder`,
+    `${process.env.NEXT_PUBLIC_BASE_ROUTE}/api/payments/mp/createorder`,
     {
       method: "POST",
       headers: {
