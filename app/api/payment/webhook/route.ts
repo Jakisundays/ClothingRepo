@@ -26,10 +26,45 @@ export async function POST(request: NextRequest) {
   //   user_id: 606875432
   // }
   const payment = new Payment(client);
-  // const paymentInfo = await payment.get({ id: "82696757426" });
+  // const paymentInfo = await payment.get({ id: "82696757426" }); 84339534461
   const paymentInfo = await payment.get({ id: body.data.id });
 
-  // console.log({ payment });
+  const printPayment: NewPayment = {
+    payment_id: paymentInfo.id?.toString(),
+    ip_address: paymentInfo.additional_info?.ip_address,
+    build_version: paymentInfo.build_version,
+    captured: paymentInfo.captured,
+    collector_id: paymentInfo.collector_id,
+    currency_id: paymentInfo.currency_id,
+    date_approved: paymentInfo.date_approved,
+    date_created: paymentInfo?.date_created,
+    date_last_updated: paymentInfo?.date_last_updated,
+    description: paymentInfo.description,
+    payment_info_id: paymentInfo.order?.id?.toString(),
+    installments: paymentInfo.installments,
+    issuer_id: paymentInfo.issuer_id,
+    live_mode: paymentInfo.live_mode,
+    metadata: paymentInfo.metadata,
+    money_release_date: paymentInfo.money_release_date,
+    money_release_status: paymentInfo.money_release_status,
+    operation_type: paymentInfo.operation_type,
+    order_type: paymentInfo.order?.type,
+    payer_email: paymentInfo.payer?.email,
+    payer_id: paymentInfo.payer?.id,
+    payment_method_id: paymentInfo.payment_method?.id,
+    payment_type_id: paymentInfo.payment_type_id,
+    processing_mode: paymentInfo.processing_mode,
+    status: paymentInfo.status,
+    status_detail: paymentInfo.status_detail,
+    transaction_amount: paymentInfo.transaction_amount,
+    transaction_amount_refunded: paymentInfo.transaction_amount_refunded,
+    net_received_amount:
+      paymentInfo.transaction_details?.net_received_amount?.toString(),
+    total_paid_amount:
+      paymentInfo.transaction_details?.total_paid_amount?.toString(),
+  };
+
+  console.log({ printPayment });
 
   // console.log({
   //   item: paymentInfo.additional_info?.items,
