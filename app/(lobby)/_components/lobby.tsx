@@ -3,7 +3,7 @@ import { type getFeaturedProducts } from "@/lib/fetchers/product";
 import ProductCard from "./product-card";
 import Image from "next/image";
 import introBgMobile from "@/public/intro/intro.png";
-import introBg from "@/public/intro/intro-3.webp";
+import introBg from "@/public/intro/intro.gif";
 
 interface LobbyProps {
   productsPromise: ReturnType<typeof getFeaturedProducts>;
