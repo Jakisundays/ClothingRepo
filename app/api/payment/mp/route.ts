@@ -43,6 +43,8 @@ export async function POST(request: NextRequest) {
         failure: process.env.NEXT_PUBLIC_APP_URL!,
         pending: process.env.NEXT_PUBLIC_APP_URL!,
       },
+      notification_url: `${process.env
+        .NEXT_PUBLIC_APP_URL!}/api/payment/webhook`,
       metadata: data,
       payer: {
         name: data.firstName,
