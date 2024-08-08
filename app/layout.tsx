@@ -70,8 +70,8 @@ export const metadata: Metadata = {
   publisher: "alterego4k®",
   robots: "index",
   icons: {
-    icon: "/public/favicon_io/favicon.ico",
-    apple: "/public/favicon_io/apple-touch-icon.png",
+    icon: "/favicon_io/favicon.ico",
+    apple: "/favicon_io/apple-touch-icon.png",
   },
   openGraph: {
     type: "website",
