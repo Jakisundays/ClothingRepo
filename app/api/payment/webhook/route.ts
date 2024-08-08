@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
         const clientEmail = paymentInfo.metadata.email;
 
         const { error } = await resend.emails.send({
-          from: "Alter Ego 4K <noreply@alterego4k.com.ar>",
+          from: "alterego4K <noreply@alterego4k.com.ar>",
           to: ["contact.tomasromero@gmail.com", clientEmail],
           subject: "Order Receipt",
           react: OrderReceipt({

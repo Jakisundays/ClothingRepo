@@ -205,7 +205,7 @@ const CartPage = () => {
                         <FormLabel>Email</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="leomessi10@argentina.com"
+                            placeholder="leomessi10@gmail.com"
                             {...field}
                           />
                         </FormControl>

@@ -64,7 +64,7 @@ export const OrderReceipt = ({
 }: Order) => (
   <Html>
     <Head />
-    <Preview>Orden confirmada - Alterego 4K </Preview>
+    <Preview>Orden confirmada - alterego4K </Preview>
 
     <Body style={main}>
       <Container style={container}>
@@ -272,7 +272,7 @@ export const OrderReceipt = ({
             align="left"
             style={{ width: "50px", paddingLeft: "8px", opacity: 0 }}
           >
-            <Link href="https://wa.me/5492646274890?text=Hola%20quiero%20hacer%20una%20consulta">
+            <Link href="https://wa.me/5491170606302?text=Hola%20quiero%20hacer%20una%20consulta">
               <Img
                 src={"https://cdn-icons-png.flaticon.com/256/5968/5968841.png"}
                 style={{ width: "24px", height: "24px" }} // Adjust size here
