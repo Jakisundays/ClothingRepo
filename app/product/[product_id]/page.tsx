@@ -129,11 +129,11 @@ export default async function ProductPage({
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="GuiaDeTalles" className="border-none">
-              <AccordionTrigger>Guia de talles</AccordionTrigger>
+              <AccordionTrigger>Guía de talles</AccordionTrigger>
               <AccordionContent>
                 <Image
                   src={product.sizeGuide!}
-                  alt={`Guia de talles para ${product.name}`}
+                  alt={`Guía de talles para ${product.name}`}
                   width={500}
                   height={325}
                 />

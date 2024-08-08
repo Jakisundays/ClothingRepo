@@ -12,7 +12,7 @@ const LayoutFooter = () => {
           <span className="sr-only">Alter ego 4K</span>
         </Link>
         <Link
-          href="#"
+          href="https://www.instagram.com/alterego4k/"
           target="_blank"
           className="text-muted-foreground hover:text-white transition-colors mb-5"
         >
