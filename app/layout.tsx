@@ -8,7 +8,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers";
 import { SiteHeader } from "@/components/layouts/site-header";
 import LayoutFooter from "@/components/LayoutFooter";
-import Favicon from "/public/favicon_io/favicon.ico";
+import Favicon from "/favicon_io/favicon.ico";
 
 const unna = Unna({
   subsets: ["latin"],
@@ -70,6 +70,10 @@ export const metadata: Metadata = {
   creator: "alterego4k®",
   publisher: "alterego4k®",
   robots: "index",
+  icons: {
+    icon: "/favicon_io/favicon.ico",
+    apple: "/favicon_io/apple-touch-icon.png",
+  },
   // icons: [{ rel: "icon", url: Favicon.src }],
   openGraph: {
     type: "website",
@@ -80,10 +84,10 @@ export const metadata: Metadata = {
     siteName: "alterego4k®",
     images: [
       {
-        url: "/public/alteregologo.png",
+        url: "/alteregologo.png",
         width: 1200,
         height: 630,
-        alt: "Logotipo de AlterEgo4K",
+        alt: "Logotipo de alterego4K",
       },
     ],
   },
