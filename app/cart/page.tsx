@@ -35,6 +35,7 @@ import { initMercadoPago } from "@mercadopago/sdk-react";
 import { EmptyCart } from "@/components/empty-cart";
 import { Button } from "@/components/ui/button";
 import { CartLineItem } from "@/types";
+import { formatCurrencyAR } from "@/lib/utils";
 
 const provinciasDeArgentina = [
   "Buenos Aires",
@@ -175,7 +176,7 @@ const CartPage = () => {
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
               <span>Subtotal</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>{formatCurrencyAR(Number(cartTotal.toFixed(2)))}</span>
             </div>
             <div className="flex items-center justify-between">
               <span>Envío</span>
@@ -184,7 +185,7 @@ const CartPage = () => {
             <Separator />
             <div className="flex items-center justify-between font-medium">
               <span>Total</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>{formatCurrencyAR(Number(cartTotal.toFixed(2)))}</span>
             </div>
           </CardContent>
         </Card>

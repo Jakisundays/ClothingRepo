@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { CartLineItem } from "@/types";
 import { Slot } from "@radix-ui/react-slot";
 
-import { cn } from "@/lib/utils";
+import { cn, formatCurrencyAR } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { UpdateCart } from "@/components/checkout/update-cart";
@@ -76,8 +76,14 @@ export function CartLineItems({
                   </span>
                   {isEditable ? (
                     <span className="line-clamp-1 text-xs text-muted-foreground">
-                      $ {item.price} x {item.quantity} = ${" "}
-                      {(Number(item.price) * Number(item.quantity)).toFixed(2)}
+                      {formatCurrencyAR(Number(item.price))} x {item.quantity} ={" "}
+                      {formatCurrencyAR(
+                        Number(
+                          (Number(item.price) * Number(item.quantity)).toFixed(
+                            2
+                          )
+                        )
+                      )}
                     </span>
                   ) : (
                     <span className="line-clamp-1 text-xs text-muted-foreground">
@@ -91,10 +97,12 @@ export function CartLineItems({
               ) : (
                 <div className="flex flex-col space-y-1 font-medium">
                   <span className="ml-auto line-clamp-1 text-sm">
-                    {(Number(item.price) * item.quantity).toFixed(2)}
+                    {formatCurrencyAR(
+                      Number((Number(item.price) * item.quantity).toFixed(2))
+                    )}
                   </span>
                   <span className="line-clamp-1 text-xs text-muted-foreground">
-                    {item.price} each
+                    {formatCurrencyAR(Number(item.price))} each
                   </span>
                 </div>
               )}

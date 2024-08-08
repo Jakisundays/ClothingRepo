@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 
-import { toTitleCase } from "@/lib/utils";
+import { formatCurrencyAR, toTitleCase } from "@/lib/utils";
 import {
   Accordion,
   AccordionContent,
@@ -101,7 +101,9 @@ export default async function ProductPage({
                 </Badge>
               )}
             </h2>
-            <p className="text-base text-muted-foreground">$ {product.price}</p>
+            <p className="text-base text-muted-foreground">
+              {formatCurrencyAR(Number(product.price))}
+            </p>
           </div>
           <Separator className="my-1.5" />
           {/* <p className="text-base text-muted-foreground">

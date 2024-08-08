@@ -181,3 +181,12 @@ export function isMacOs() {
 
   return window.navigator.userAgent.includes("Mac");
 }
+
+export function formatCurrencyAR(num: number): string {
+  return `${num.toLocaleString("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
