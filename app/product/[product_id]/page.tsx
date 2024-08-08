@@ -81,7 +81,7 @@ export default async function ProductPage({
   }
 
   return (
-    <Shell className="pb-12 md:pb-14">
+    <Shell className="h-full md:min-h-[calc(100vh-100px)]">
       <div className="flex flex-col gap-8 md:flex-row md:gap-16">
         <ProductImageCarousel
           className="w-full md:w-1/2"
@@ -130,12 +130,14 @@ export default async function ProductPage({
             </AccordionItem>
             <AccordionItem value="GuiaDeTalles" className="border-none">
               <AccordionTrigger>Guía de talles</AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className="relative p-0 m-0">
                 <Image
                   src={product.sizeGuide!}
                   alt={`Guía de talles para ${product.name}`}
-                  width={500}
-                  height={325}
+                  width={550}
+                  height={300}
+                  objectFit="contain"
+                  className=""
                 />
               </AccordionContent>
             </AccordionItem>

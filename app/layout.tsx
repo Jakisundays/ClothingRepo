@@ -74,7 +74,6 @@ export const metadata: Metadata = {
     icon: "/favicon_io/favicon.ico",
     apple: "/favicon_io/apple-touch-icon.png",
   },
-  // icons: [{ rel: "icon", url: Favicon.src }],
   openGraph: {
     type: "website",
     url: "https://alterego4k.com.ar",
