@@ -11,8 +11,6 @@ import {
   Row,
   Section,
   Text,
-  Font,
-  Heading,
 } from "@react-email/components";
 import { Items } from "mercadopago/dist/clients/commonTypes";
 import * as React from "react";
@@ -26,16 +24,6 @@ interface ClientDetails {
   province: string;
   postal_code: string;
   apartment?: string; // Opcional, basado en el ejemplo proporcionado
-}
-
-interface Product {
-  category_id: string;
-  description: string;
-  id: string;
-  picture_url: string;
-  quantity: string;
-  title: string;
-  unit_price: string;
 }
 
 interface Order {
@@ -181,11 +169,11 @@ export const OrderReceipt = ({
                   />
                 </Column>
                 <Column style={{ paddingLeft: "22px" }}>
-                  <Text style={productTitle}>{title}</Text>
+                  <Text style={productTitle}>{description}</Text>
                   <Text style={productDescription}>
-                    {description && description.length > 40
-                      ? description.slice(0, 18) + "..."
-                      : description}
+                    {title && title.length > 40
+                      ? title.slice(0, 18) + "..."
+                      : title}
                   </Text>
                   <Text style={productDescription}>Talle: {category_id}</Text>
                 </Column>
@@ -359,12 +347,6 @@ const container = {
 
 const tableCell = { display: "table-cell" };
 
-const heading = {
-  fontSize: "32px",
-  fontWeight: "300",
-  color: "black",
-};
-
 const cupomText = {
   textAlign: "center" as const,
   margin: "36px 0 40px 0",
@@ -477,24 +459,9 @@ const productPriceLargeWrapper = { display: "table-cell", width: "90px" };
 
 const productPriceLineBottom = { margin: "0 0 25px 0" };
 
-const footerCopyright = {
-  margin: "15px 0 0 0",
-  textAlign: "center" as const,
-  fontSize: "12px",
-  color: "rgb(102,102,102)",
-};
-
 const thanks = {
   margin: "0 0 20px 0",
   textAlign: "center" as const,
   fontSize: "12px",
   color: "rgb(102,102,102)",
-};
-
-const logo = {
-  fontFamily: "'IBM Plex Sans Condensed', Arial, sans-serif",
-  fontSize: "35px",
-  fontWeight: 500,
-  textAlign: "center" as const,
-  margin: "20px 0",
 };

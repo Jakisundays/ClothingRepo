@@ -24,6 +24,7 @@ export const products = pgTable("products", {
   images: json("images").$type<StoredFile[] | null>().default(null),
   inventory: json("inventory").$type<ProductInventory[] | null>().default(null),
   price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
+  sizeGuide: text("size_guide").$type<string | null>().default(null),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

@@ -69,10 +69,10 @@ export const metadata: Metadata = {
   creator: "alterego4k®",
   publisher: "alterego4k®",
   robots: "index",
-  // icons: {
-  //   icon: "/public/favicon_io/favicon.ico",
-  //   apple: "/public/favicon_io/apple-touch-icon.png",
-  // },
+  icons: {
+    icon: "/public/favicon_io/favicon.ico",
+    apple: "/public/favicon_io/apple-touch-icon.png",
+  },
   openGraph: {
     type: "website",
     url: "https://alterego4k.com.ar",

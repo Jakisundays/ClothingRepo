@@ -19,8 +19,8 @@ const client = new MercadoPagoConfig({
 function transformToItems(cart: ItemInput[]) {
   return cart.map((item) => ({
     id: item.id.toString(), // Convert id to string
-    title: item.name, // Use name as title
-    description: item.description, // Use description as description
+    title: item.description, // Use name as title
+    description: item.name, // Use description as description
     picture_url: item.images.length > 0 ? item.images[0].url : undefined, // Use the first image's URL if available
     category_id: item.size,
     quantity: item.quantity, // Use quantity from cart

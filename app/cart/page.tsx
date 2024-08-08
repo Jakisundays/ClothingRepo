@@ -77,11 +77,11 @@ const formSchema = z.object({
     message: "Address is required.",
   }),
   apartment: z.string().optional(),
-  postalCode: z.string().min(5, {
+  postalCode: z.string().min(1, {
     message: "Postal code must be at least 5 characters.",
   }),
   province: z.enum(provinciasDeArgentina),
-  phone: z.string().min(10, {
+  phone: z.string().min(1, {
     message: "Phone number must be at least 10 characters.",
   }),
 });
@@ -97,14 +97,14 @@ const CartPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "leomessi10@argentina.com",
-      firstName: "Leo",
-      lastName: "Messi",
-      address: "Qatar 22",
-      apartment: "4E",
-      postalCode: "B7400",
+      email: "",
+      firstName: "",
+      lastName: "",
+      address: "",
+      apartment: "",
+      postalCode: "",
       province: "Buenos Aires",
-      phone: "+54 911 1003-0245",
+      phone: "",
     },
   });
 
@@ -204,7 +204,7 @@ const CartPage = () => {
                         <FormLabel>Email</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="alterego4k@gmail.com"
+                            placeholder="leomessi10@argentina.com"
                             {...field}
                           />
                         </FormControl>
@@ -221,7 +221,7 @@ const CartPage = () => {
                       <FormItem>
                         <FormLabel>Nombre</FormLabel>
                         <FormControl>
-                          <Input placeholder="John" {...field} />
+                          <Input placeholder="Leo" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -234,7 +234,7 @@ const CartPage = () => {
                       <FormItem>
                         <FormLabel>Apellido</FormLabel>
                         <FormControl>
-                          <Input placeholder="Doe" {...field} />
+                          <Input placeholder="Messi" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -249,7 +249,7 @@ const CartPage = () => {
                       <FormItem>
                         <FormLabel>Telefono</FormLabel>
                         <FormControl>
-                          <Input placeholder="+54 911 2511 8663" {...field} />
+                          <Input placeholder="+54 911 1003-0245" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -264,7 +264,7 @@ const CartPage = () => {
                       <FormItem>
                         <FormLabel>Dirección</FormLabel>
                         <FormControl>
-                          <Input placeholder="123 Main St" {...field} />
+                          <Input placeholder="Qatar 22" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -277,7 +277,7 @@ const CartPage = () => {
                       <FormItem>
                         <FormLabel>Apartamento</FormLabel>
                         <FormControl>
-                          <Input placeholder="7B" {...field} />
+                          <Input placeholder="4E" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -308,7 +308,7 @@ const CartPage = () => {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Provincia" />
+                              <SelectValue placeholder="Buenos Aires" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>

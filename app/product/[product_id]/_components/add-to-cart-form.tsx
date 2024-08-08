@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
 import { cn } from "@/lib/utils";
 import { updateCartItemSchema } from "@/lib/validations/cart";
 import { Button } from "@/components/ui/button";
@@ -26,41 +25,53 @@ import { Product } from "@/db/schema";
 interface AddToCartFormProps {
   product: Product;
   showBuyNow?: boolean;
+  soldOut: boolean;
 }
 
 type Inputs = z.infer<typeof updateCartItemSchema>;
 
-export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
+export function AddToCartForm({
+  product,
+  showBuyNow,
+  soldOut,
+}: AddToCartFormProps) {
   const id = React.useId();
   const [isAddingToCart, setIsAddingToCart] = React.useState(false);
   const [isBuyingNow, setIsBuyingNow] = React.useState(false);
+  const [size, setSize] = React.useState<string | null>(
+    product.inventory?.[0]?.size ?? null
+  );
 
-  // react-hook-form
   const form = useForm<Inputs>({
     resolver: zodResolver(updateCartItemSchema),
     defaultValues: {
-      quantity: 1,
-      size: product.inventory ? product.inventory[0].size : "Talle 1",
+      quantity: soldOut ? 0 : 1,
+      size: product.inventory ? product.inventory[0].size : "",
     },
   });
+
+  React.useEffect(() => {
+    const currentInventory = product.inventory?.find(
+      (item) => item.size === size
+    )?.quantity;
+    if (currentInventory && form.getValues("quantity") > currentInventory) {
+      form.setValue("quantity", currentInventory);
+    }
+  }, [size, product.inventory, form]);
 
   const addToLocalStorageCart = ({ quantity, size }: Inputs) => {
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // Find if the product already exists in the cart
     const existingProductIndex = cart.findIndex(
       (item: any) => item.id === product.id && item.size === size
     );
 
     if (existingProductIndex !== -1) {
-      // If product already exists, update the quantity
       cart[existingProductIndex].quantity += quantity;
     } else {
-      // If product does not exist, add it to the cart
       cart.push({ ...product, quantity, size });
     }
 
-    // Save the updated cart back to local storage
     localStorage.setItem("cart", JSON.stringify(cart));
     window.dispatchEvent(new Event("storage"));
   };
@@ -100,7 +111,7 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
             onClick={() =>
               form.setValue(
                 "quantity",
-                Math.max(0, form.getValues("quantity") - 1)
+                Math.max(1, form.getValues("quantity") - 1)
               )
             }
             disabled={isAddingToCart}
@@ -118,14 +129,29 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
                   <Input
                     type="number"
                     inputMode="numeric"
-                    min={0}
+                    min={1}
+                    max={
+                      size === product.inventory?.[0]?.size
+                        ? product.inventory?.[0]?.quantity
+                        : product.inventory?.[1]?.quantity
+                    }
                     className="h-8 w-16 rounded-none border-x-0"
                     {...field}
                     onChange={(e) => {
                       const value = e.target.value;
                       const parsedValue = parseInt(value, 10);
+
                       if (isNaN(parsedValue)) return;
-                      field.onChange(parsedValue);
+
+                      const currentInventory = product.inventory?.find(
+                        (item) => item.size === size
+                      )?.quantity;
+
+                      if (currentInventory && parsedValue <= currentInventory) {
+                        field.onChange(parsedValue);
+                      } else if (currentInventory) {
+                        field.onChange(currentInventory);
+                      }
                     }}
                   />
                 </FormControl>
@@ -139,9 +165,18 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
             variant="outline"
             size="icon"
             className="size-8 shrink-0 rounded-l-none"
-            onClick={() =>
-              form.setValue("quantity", form.getValues("quantity") + 1)
-            }
+            onClick={() => {
+              const currentInventory = product.inventory?.find(
+                (item) => item.size === size
+              )?.quantity;
+
+              if (
+                currentInventory &&
+                form.getValues("quantity") < currentInventory
+              ) {
+                form.setValue("quantity", form.getValues("quantity") + 1);
+              }
+            }}
             disabled={isAddingToCart}
           >
             <PlusIcon className="size-3" aria-hidden="true" />
@@ -153,12 +188,15 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
           name="size"
           render={({ field }) => (
             <FormItem className="space-x-3">
-              {/* <FormLabel>Talle</FormLabel> */}
               <FormControl>
                 <RadioGroup
-                  onValueChange={field.onChange}
+                  onValueChange={(e) => {
+                    setSize(e);
+                    field.onChange(e);
+                  }}
                   defaultValue={field.value}
                   className="flex space-x-6 my-4"
+                  disabled={soldOut}
                 >
                   {product.inventory?.map((info, i) => (
                     <FormItem
@@ -187,13 +225,13 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
               aria-label="Compra ya"
               size="sm"
               className="w-full"
-              onClick={async () =>
+              onClick={() =>
                 buyNow({
                   quantity: form.getValues("quantity"),
                   size: form.getValues("size"),
                 })
               }
-              disabled={isBuyingNow}
+              disabled={isBuyingNow || soldOut}
             >
               {isBuyingNow && (
                 <Icons.spinner
@@ -210,7 +248,7 @@ export function AddToCartForm({ product, showBuyNow }: AddToCartFormProps) {
             variant={showBuyNow ? "outline" : "default"}
             size="sm"
             className="w-full"
-            disabled={isAddingToCart}
+            disabled={isAddingToCart || soldOut}
           >
             {isAddingToCart && (
               <Icons.spinner

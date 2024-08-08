@@ -87,7 +87,7 @@ export function CartLineItems({
                 </div>
               </div>
               {isEditable ? (
-                <UpdateCart cartLineItem={item} />
+                <UpdateCart {...item} />
               ) : (
                 <div className="flex flex-col space-y-1 font-medium">
                   <span className="ml-auto line-clamp-1 text-sm">

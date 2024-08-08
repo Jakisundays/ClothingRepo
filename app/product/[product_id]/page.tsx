@@ -16,6 +16,8 @@ import { Shell } from "@/components/shells/shell";
 import db from "@/db";
 import { Product, products } from "@/db/schema";
 import { ProductInventory } from "@/types";
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 interface ProductPageProps {
   params: {
@@ -58,6 +60,7 @@ export default async function ProductPage({
       price: true,
       images: true,
       inventory: true,
+      sizeGuide: true,
     },
     where: eq(products.id, Number(product_id)),
   });
@@ -91,7 +94,12 @@ export default async function ProductPage({
         <div className="flex w-full flex-col gap-4 md:w-1/2">
           <div className="space-y-2">
             <h2 className="line-clamp-1 text-2xl font-bold font-unna">
-              {product.name}
+              {product.name}{" "}
+              {getTotalStock(product.inventory) === 0 && (
+                <Badge variant="destructive" className="font-inter ml-5">
+                  Agotado
+                </Badge>
+              )}
             </h2>
             <p className="text-base text-muted-foreground">$ {product.price}</p>
           </div>
@@ -99,19 +107,34 @@ export default async function ProductPage({
           {/* <p className="text-base text-muted-foreground">
             {getTotalStock(product.inventory)} en stock
           </p> */}
-          <AddToCartForm product={product as Product} showBuyNow={true} />
+          <AddToCartForm
+            product={product as Product}
+            showBuyNow={true}
+            soldOut={getTotalStock(product.inventory) === 0}
+          />
           <Separator className="mt-5" />
           <Accordion
             type="single"
             collapsible
             className="w-full"
-            defaultValue="Descripción"
+            // defaultValue="Descripción"
           >
             <AccordionItem value="Descripción" className="border-none">
               <AccordionTrigger>Descripción</AccordionTrigger>
               <AccordionContent>
                 {product.description ??
                   "No hay descripción disponible para este producto."}
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="GuiaDeTalles" className="border-none">
+              <AccordionTrigger>Guia de talles</AccordionTrigger>
+              <AccordionContent>
+                <Image
+                  src={product.sizeGuide!}
+                  alt={`Guia de talles para ${product.name}`}
+                  width={500}
+                  height={325}
+                />
               </AccordionContent>
             </AccordionItem>
           </Accordion>

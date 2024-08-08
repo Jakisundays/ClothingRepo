@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import db from "@/db";
 import { products } from "./schema";
 
-export const getProductById = async (id: number) => {
+export const getProductInventoryById = async (id: number) => {
   const product = await db
     .select({ inventory: products.inventory })
     .from(products)

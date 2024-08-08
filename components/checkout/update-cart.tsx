@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { CartLineItem } from "@/types";
+import type { CartLineItem, ProductInventory } from "@/types";
 import { MinusIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 
 import { deleteCartItem, updateCartItem } from "@/lib/actions/cart";
@@ -10,14 +10,44 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "../ui/use-toast";
 
-interface UpdateCartProps {
-  cartLineItem: CartLineItem;
-}
-
-export function UpdateCart({ cartLineItem }: UpdateCartProps) {
-  const id = React.useId();
+export function UpdateCart(cartLineItem: CartLineItem) {
   const [isPending, startTransition] = React.useTransition();
   const { toast } = useToast();
+  const [productDetails, setProductDetails] =
+    React.useState<ProductInventory | null>(null);
+
+  React.useEffect(() => {
+    const fetchProductDetails = async () => {
+      const response = await fetch(`/api/product/${cartLineItem.id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch product Inventory");
+      }
+      const data = await response.json();
+      const wantedProductInventory = findSize(
+        data.inventory,
+        cartLineItem.size
+      );
+      setProductDetails(wantedProductInventory);
+    };
+
+    fetchProductDetails();
+  }, [cartLineItem.id, cartLineItem.size]);
+
+  React.useEffect(() => {
+    if (productDetails && cartLineItem.quantity > productDetails.quantity) {
+      startTransition(() => {
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const itemIndex = cart.findIndex(
+          (item: CartLineItem) =>
+            item.id === cartLineItem.id && item.size === cartLineItem.size
+        );
+        if (itemIndex !== -1) {
+          cart[itemIndex].quantity = productDetails.quantity;
+          updateLocalStorageCart(cart);
+        }
+      });
+    }
+  }, [productDetails, cartLineItem]);
 
   const updateLocalStorageCart = (updatedCart: any) => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -42,6 +72,37 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
   };
 
   const handleIncrement = () => {
+    if (productDetails && cartLineItem.quantity < productDetails.quantity) {
+      startTransition(() => {
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const itemIndex = cart.findIndex(
+          (item: CartLineItem) =>
+            item.id === cartLineItem.id && item.size === cartLineItem.size
+        );
+        if (itemIndex !== -1) {
+          cart[itemIndex].quantity += 1;
+          updateLocalStorageCart(cart);
+        }
+      });
+    }
+  };
+
+  const handleDelete = () => {
+    startTransition(() => {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const { id, size } = cartLineItem;
+      const updatedCart = cart.filter(
+        (item: CartLineItem) => !(item.id === id && item.size === size)
+      );
+      updateLocalStorageCart(updatedCart);
+    });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuantity = Number(e.target.value);
+    if (productDetails && newQuantity > productDetails.quantity) {
+      return;
+    }
     startTransition(() => {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
       const itemIndex = cart.findIndex(
@@ -49,36 +110,6 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
           item.id === cartLineItem.id && item.size === cartLineItem.size
       );
       if (itemIndex !== -1) {
-        cart[itemIndex].quantity += 1;
-        updateLocalStorageCart(cart);
-      }
-    });
-  };
-
-  const handleDelete = () => {
-    startTransition(() => {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-      // Assuming cartLineItem contains the ID and size of the item to be deleted
-      const { id, size } = cartLineItem;
-
-      // Filter out items with matching ID and size
-      const updatedCart = cart.filter(
-        (item: CartLineItem) => !(item.id === id && item.size === size)
-      );
-
-      updateLocalStorageCart(updatedCart);
-    });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    startTransition(() => {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const itemIndex = cart.findIndex(
-        (item: any) => item.id === cartLineItem.id
-      );
-      if (itemIndex !== -1) {
-        const newQuantity = Number(e.target.value);
         if (newQuantity <= 0) {
           cart.splice(itemIndex, 1);
         } else {
@@ -89,11 +120,18 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
     });
   };
 
+  const findSize = (
+    arr: ProductInventory[],
+    targetSize: string
+  ): ProductInventory | null => {
+    return arr.find((item) => item.size === targetSize) || null;
+  };
+
   return (
     <div className="flex w-full items-center justify-between space-x-2 xs:w-auto xs:justify-normal">
       <div className="flex items-center">
         <Button
-          id={`${id}-decrement`}
+          id={`${cartLineItem.id}-decrement`}
           variant="outline"
           size="icon"
           className="size-8 rounded-r-none"
@@ -104,7 +142,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
           <span className="sr-only">Retirar un artículo</span>
         </Button>
         <Input
-          id={`${id}-quantity`}
+          id={`${cartLineItem.id}-quantity`}
           type="number"
           min="0"
           className="h-8 w-14 rounded-none border-x-0"
@@ -113,7 +151,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
           disabled={isPending}
         />
         <Button
-          id={`${id}-increment`}
+          id={`${cartLineItem.id}-increment`}
           variant="outline"
           size="icon"
           className="size-8 rounded-l-none"
@@ -125,7 +163,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
         </Button>
       </div>
       <Button
-        id={`${id}-delete`}
+        id={`${cartLineItem.id}-delete`}
         variant="outline"
         size="icon"
         className="size-8"

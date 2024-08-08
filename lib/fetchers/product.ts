@@ -152,25 +152,6 @@ export async function getProducts(input: z.infer<typeof getProductsSchema>) {
   }
 }
 
-export async function getProductCount({ category }: { category: Category }) {
-  noStore();
-  try {
-    return await db
-      .select({
-        count: sql<number>`count(*)`.mapWith(Number),
-      })
-      .from(products)
-      // .where(eq(products.category, category.title))
-      .execute()
-      .then((res) => res[0]?.count ?? 0);
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-}
-
-export type ProductCountPromise = ReturnType<typeof getProductCount>;
-
 export async function getNextProductId(
   rawInput: z.infer<typeof getProductSchema>
 ) {

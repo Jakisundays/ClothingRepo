@@ -4,7 +4,7 @@ import { Resend } from "resend";
 import OrderReceipt from "@/emails/OrderReceipt";
 import { NewOrder, NewPayment } from "@/db/schema";
 import { insertOrder, insertPayment } from "@/db/insertOps";
-import { getProductById } from "@/db/selectOps";
+import { getProductInventoryById } from "@/db/selectOps";
 import { Items } from "mercadopago/dist/clients/commonTypes";
 import updateProductInventory from "@/db/updateOps";
 import { ProductInventory } from "@/types";
@@ -23,7 +23,7 @@ const subtractProductQuantities = async (items: Items[]) => {
     // const quantityBought = parseInt(item.quantity, 10);
 
     // Fetch the current inventory for the product
-    const product = await getProductById(Number(id));
+    const product = await getProductInventoryById(Number(id));
 
     if (product && product.inventory) {
       const { inventory } = product;

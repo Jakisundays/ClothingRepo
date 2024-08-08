@@ -219,9 +219,11 @@ const OrderSuccess = () => {
                     className="rounded-md"
                   />
                   <div>
-                    <h3 className="text-base font-semibold">{product.title}</h3>
-                    <p className="text-xs text-muted-foreground">
+                    <h3 className="text-base font-semibold">
                       {product.description}
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                      {product.title}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       Cantidad: {product.quantity}
