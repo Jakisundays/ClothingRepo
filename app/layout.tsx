@@ -70,7 +70,7 @@ export const metadata: Metadata = {
   creator: "alterego4k®",
   publisher: "alterego4k®",
   robots: "index",
-  icons: [{ rel: "icon", url: Favicon.src }],
+  // icons: [{ rel: "icon", url: Favicon.src }],
   openGraph: {
     type: "website",
     url: "https://alterego4k.com.ar",
