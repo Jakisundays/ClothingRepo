@@ -65,24 +65,24 @@ const provinciasDeArgentina = [
 
 const formSchema = z.object({
   email: z.string().email({
-    message: "Invalid email address.",
+    message: "Dirección de correo electrónico inválida.",
   }),
   firstName: z.string().nonempty({
-    message: "First name is required.",
+    message: "El nombre es obligatorio.",
   }),
   lastName: z.string().nonempty({
-    message: "Last name is required.",
+    message: "El apellido es obligatorio.",
   }),
   address: z.string().nonempty({
-    message: "Address is required.",
+    message: "La dirección es obligatoria.",
   }),
   apartment: z.string().optional(),
   postalCode: z.string().min(1, {
-    message: "Postal code must be at least 5 characters.",
+    message: "El código postal debe tener al menos 1 carácter.",
   }),
   province: z.enum(provinciasDeArgentina),
   phone: z.string().min(1, {
-    message: "Phone number must be at least 10 characters.",
+    message: "El número de teléfono debe tener al menos 10 caracteres.",
   }),
 });
 
