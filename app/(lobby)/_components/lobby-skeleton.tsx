@@ -1,6 +1,6 @@
 import { ContentSection } from "@/components/shells/content-section";
 import { ProductCardSkeleton } from "@/components/skeletons/product-card-skeleton";
-import introBg from "@/public/intro/intro-3.webp";
+import introBg from "@/public/intro/intro.png";
 import Image from "next/image";
 
 export function LobbySkeleton() {
