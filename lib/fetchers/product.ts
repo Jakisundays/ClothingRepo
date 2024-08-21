@@ -40,6 +40,7 @@ export async function getFeaturedProducts() {
             description: products.description,
             price: products.price,
             inventory: products.inventory,
+            sizeGuide: products.sizeGuide,
             createdAt: products.createdAt,
             updatedAt: products.updatedAt,
           })
