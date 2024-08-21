@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
 
         const { error } = await resend.emails.send({
           from: "alterego4K <noreply@alterego4k.com.ar>",
-          to: ["contact.tomasromero@gmail.com", clientEmail],
+          to: ["contacto.alterego@gmail.com", clientEmail],
           subject: "Order Receipt",
           react: OrderReceipt({
             id: body.data.id,
