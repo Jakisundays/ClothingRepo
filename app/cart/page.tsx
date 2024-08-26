@@ -278,7 +278,7 @@ const CartPage = () => {
                       <FormItem>
                         <FormLabel>Apartamento</FormLabel>
                         <FormControl>
-                          <Input placeholder="4E" {...field} />
+                          <Input placeholder="4K" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
