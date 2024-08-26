@@ -230,7 +230,7 @@ export const OrderReceipt = ({
             align="left"
             style={{ width: "50px", paddingLeft: "8px", opacity: 0 }}
           >
-            <Link href="https://wa.me/5492646274890?text=Hola%20quiero%20hacer%20una%20consulta">
+            <Link href="https://wa.me/5491170606302?text=Hola%20quiero%20hacer%20una%20consulta">
               <Img
                 src={"https://cdn-icons-png.flaticon.com/256/5968/5968841.png"}
                 style={{ width: "24px", height: "24px" }} // Adjust size here
@@ -248,7 +248,7 @@ export const OrderReceipt = ({
             </Link>
           </Column>
           <Column align="left" style={{ width: "50px", paddingLeft: "8px" }}>
-            <Link href="https://wa.me/5492646274890?text=Hola%20quiero%20hacer%20una%20consulta">
+            <Link href="https://wa.me/5491170606302?text=Hola%20quiero%20hacer%20una%20consulta">
               <Img
                 src={"https://cdn-icons-png.flaticon.com/256/5968/5968841.png"}
                 style={{ width: "24px", height: "24px" }} // Adjust size here
